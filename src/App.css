@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  --Degrade: linear-gradient(135deg, #AD86FF 0%, #4D38AB 100%);
+  --Primary: #5B21B6;
+  --White: #FFFFFF;
+  --Font: #313A4E;
+  --Border-Input: #E5E7EB;
+  --Accent-100: #F3F3F5;
+  --Destructive-200: #FFA2A2;
+  --ColorSemantico-rojo: #D4183D;
+  --Font-Primary: #313A4E;
+  --Terciario: #8B5CF6;
+  --Primary-Opacity20:  rgba(91, 33, 182, 0.20);
+
+
+  font-family: "Manrope", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.Button-IconoDerecha {
+  display: flex;
+  height: 2.25rem;
+  /* padding: 0.53125rem 0.75rem 0.46875rem 0.75rem; */
+  justify-content: center;
+  /* align-items: flex-start; */
+  align-items: center;
+  /* gap: 0.45456rem; */
+  border-radius: 0.5rem;
+  background: var(--Primary);
+  cursor: pointer;
+  color: white;
+
+  display: flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 0.4375rem;
+}
+
+.TitleXL {
+  /* color: var(--White, #FFF); */
+  font-family: Manrope;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.H2 {
+  color: var(--White, #FFF);
+
+  /* H2 */
+  font-family: Manrope;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.25rem;
+  /* 100% */
+}
+
+.H3 {
+  color: var(--Font-Primary, #313A4E);
+  text-align: center;
+
+  /* H3 */
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  /* 125% */
+}
+
+.H4{
+  color: var(--Font-Primary, #313A4E);
+
+  /* H4 */
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem; /* 142.857% */
+}
+
+.barra-progreso{
+  background: var(--Primary-Opacity20, rgba(91, 33, 182, 0.20));
+}
+
+.Parrafo {
+  color: var(--Font-Primary, #313A4E);
+  text-align: center;
+
+  /* Parrafo */
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.Button-Medium {
+  color: var(--Terciario, #8B5CF6);
+  text-align: center;
+
+  /* Button/Medium */
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  /* 142.857% */
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+
+.logo-mediano {
+  width: 5rem;
+  height: 5.375rem;
+  aspect-ratio: 40/43;
+}
+
+/* .button-formulario {
+  display: flex;
+  width: 20rem;
+  height: 3rem;
+  padding: 0.75rem 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  border-radius: 1rem;
+  border: 2px solid var(--Border-Input, #E5E7EB);
+  background: var(--Accent-100, #F3F3F5);
+} */
