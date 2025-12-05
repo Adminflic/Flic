@@ -63,6 +63,21 @@
   gap: 1.5rem;
 }
 
+.colorPrimario{
+  background-color: var(--Primary);
+}
+
+.colorPrimario-hover{
+  background-color: var(--Accent-Hover);
+}
+
+.colorTerciario{
+ color: var(--Terciario);
+}
+
+.colorDestroy{
+  color: var(--ColorSemantico-rojo);
+}
 
 @media (min-width: 1920px) {
 

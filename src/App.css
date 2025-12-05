@@ -3,6 +3,7 @@
 :root {
   --Degrade: linear-gradient(135deg, #AD86FF 0%, #4D38AB 100%);
   --Primary: #5B21B6;
+  --Accent-Hover: #6D28D9;
   --White: #FFFFFF;
   --Font: #313A4E;
   --Border-Input: #E5E7EB;

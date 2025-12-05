@@ -390,8 +390,8 @@ export const Login = () => {
                 variant="destructive"
                 className="mb-6 bg-red-50 border-red-200 animate-in slide-in-from-top-2"
               >
-                <AlertCircle className="h-4 w-4 text-red-600" />
-                <AlertDescription className="text-red-800">
+                <AlertCircle className="h-4 w-4 colorDestroy" />
+                <AlertDescription className="colorDestroy">
                   {codeErrorLogin}
                 </AlertDescription>
               </Alert>
@@ -524,7 +524,7 @@ export const Login = () => {
             {/* Button Ingresar */}
             <button
               className="
-              w-full bg-purple-700 text-white 
+              w-full  text-white  colorPrimario
               py-3 rounded-2xl
               text-center font-medium
               hover:bg-purple-800 
@@ -558,7 +558,7 @@ export const Login = () => {
               {/* Botón que abre el modal */}
               <button
                 onClick={() => setOpenModal(true)}
-                className="text-purple-600 text-sm font-medium hover:underline"
+                className="colorTerciario text-sm font-medium hover:underline"
               >
                 ¿Olvidaste la contraseña?
               </button>

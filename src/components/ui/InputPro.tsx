@@ -81,7 +81,7 @@ export const InputPro: React.FC<InputProProps> = ({
             ${
               hasError
                 ? "border-red-500 shadow-[0_0_0_2px_#FFBABA]"
-                : "border-gray-300 focus:border-purple-500 focus:shadow-[0_0_0_2px_#A066FF]"
+                : "border-gray-300 focus:border-purple-900 focus:shadow-[0_0_0_2px_#5B21B680]"
             }
           `}
         />
