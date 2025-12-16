@@ -1,0 +1,171 @@
+.data-table-container {
+  position: relative;
+  overflow: auto;
+  max-height: 600px;
+}
+
+.data-table {
+  min-width: 2000px;
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  /* background-color: #007bff; */
+}
+
+/* Headers fijos - CORREGIDOS */
+.fixed-header-estado {
+  position: sticky;
+  right: 60px;
+  background-color: #e9ecef !important;
+  z-index: 30;
+  border-left: 2px solid #dee2e6;
+  min-width: 120px;
+  white-space: nowrap;
+  top: 0;
+}
+
+.fixed-header-logs {
+  position: sticky;
+  right: 0;
+  background-color: #e9ecef !important;
+  z-index: 30;
+  border-left: 2px solid #dee2e6;
+  min-width: 80px;
+  white-space: nowrap;
+  top: 0;
+}
+
+/* Headers normales también sticky */
+.data-table thead th:not(.fixed-header-estado):not(.fixed-header-logs) {
+  position: sticky;
+  top: 0;
+  background: #F9F9F9;
+  z-index: 25;
+}
+
+/* Celdas fijas - CORREGIDAS */
+.fixed-column-estado {
+  position: sticky;
+  right: 60px;
+  background-color: #ffffff !important;
+  z-index: 20;
+  /* border-left: 2px solid #dee2e6; */
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.fixed-column-logs {
+  position: sticky;
+  right: 0;
+  background-color: #ffffff !important;
+  z-index: 20;
+  /* border-left: 2px solid #dee2e6; */
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+/* Asegurar que las celdas tengan buen espaciado */
+.data-table th,
+.data-table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #dee2e6;
+  text-align: center;
+}
+
+/* Headers normales */
+.data-table thead th {
+  /* background-color: #f8f9fa; */
+  background: #F9F9F9 !important;
+
+  font-weight: 600;
+  border: none;
+  /* border-bottom: 2px solid #dee2e6; */
+  border-bottom: none;
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+
+/* Efecto hover para filas */
+.data-table tbody tr:hover {
+  /* background-color: #f8f9fa; */
+}
+
+.data-table tbody tr:hover .fixed-column-estado,
+.data-table tbody tr:hover .fixed-column-logs {
+  /* background-color: #f8f9fa !important; */
+}
+
+/* Scroll personalizado */
+.data-table-container::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.data-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.data-table-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.data-table-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Asegurar que el thead completo sea sticky */
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+
+
+/* Estilos para el botón de logs */
+.logs-button {
+  transition: all 0.2s ease;
+  border: 1px solid #007bff;
+  color: #007bff;
+  font-size: 14px;
+  padding: 0.25rem 0.5rem;
+}
+
+.logs-button:hover {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
+.logs-button:active {
+  transform: scale(0.95);
+}
+
+/* Header de la tabla con botón de configuración */
+.card-header {
+  padding: 0.75rem 1rem;
+}
+
+.card-header h6 {
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Ajustes para columnas dinámicas */
+.data-table th:not(.fixed-header-estado):not(.fixed-header-logs) {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 25;
+  white-space: nowrap;
+}
+
+.data-table td:not(.fixed-column-estado):not(.fixed-column-logs) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}

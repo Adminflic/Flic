@@ -11,9 +11,13 @@
   --Destructive-200: #FFA2A2;
   --ColorSemantico-rojo: #D4183D;
   --Font-Primary: #313A4E;
+  --Font-Secondary: #717182;
   --Terciario: #8B5CF6;
   --Primary-Opacity20:  rgba(91, 33, 182, 0.20);
-
+  --Secondary: #ECEEF2;
+  --Border: #E1E1E1;
+  --Background: #FFFFFF;
+  --Color-texto-principal: #313A4E;
 
   font-family: "Manrope", sans-serif;
   box-sizing: border-box;

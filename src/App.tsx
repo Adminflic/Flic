@@ -5,10 +5,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import './App.css'
 import { Login } from "./pages/Login/login";
 import AppLayout from "./pages/AppLayout/AppLayout";
-import { RecaudoPage } from "./pages/Recaudos/RecaudoPage";
+// import { RecaudoPage } from "./pages/Recaudos/RecaudoPage";
 import { ChequePage } from "./pages/Cheques/ChequePage";
 import { ReversionPage } from "./pages/Reversion/ReversionPage";
 import { NoNotificadaPage } from "./pages/NoNotificadas/NoNotificadaPage";
+import RecaudoPage from "./pages/Recaudos/RecaudoPage";
 
 function App() {
 

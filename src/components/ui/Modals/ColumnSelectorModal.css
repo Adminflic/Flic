@@ -1,0 +1,193 @@
+/* Modal específico para selector de columnas */
+.column-selector-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 95vw;
+  max-height: 80vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  z-index: 1060;
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.column-selector-backdrop {
+  z-index: 1055;
+}
+
+/* Header del modal */
+.column-selector-modal .modal-header {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.column-selector-modal .modal-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Body del modal */
+.column-selector-modal .modal-body {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+/* Acciones de selección */
+.selection-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.selection-actions .btn {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Contador de columnas */
+.columns-counter {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+/* Grid de columnas */
+.columns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.column-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.column-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: #4facfe;
+}
+
+.column-item .form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.column-item .form-check-input {
+  margin-right: 0.5rem;
+  margin-top: 0;
+}
+
+.column-item .form-check-label {
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  flex: 1;
+}
+
+.column-item .column-key {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox personalizado */
+.form-check-input:checked {
+  background-color: #4facfe;
+  border-color: #4facfe;
+}
+
+.form-check-input:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+}
+
+/* Footer del modal */
+.column-selector-modal .modal-footer {
+  background: white;
+  border-top: 1px solid #dee2e6;
+  border-radius: 0 0 12px 12px;
+  padding: 1rem 1.5rem;
+}
+
+/* Animaciones */
+@keyframes scaleIn {
+  from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Scrollbar personalizado */
+.columns-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.columns-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.columns-grid::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.columns-grid::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .column-selector-modal {
+      width: 95vw;
+      height: 90vh;
+  }
+  
+  .columns-grid {
+      grid-template-columns: 1fr;
+  }
+  
+  .selection-actions {
+      justify-content: center;
+  }
+}
+
+/* Estados deshabilitados */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
