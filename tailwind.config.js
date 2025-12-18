@@ -75,6 +75,35 @@ module.exports = {
         parrafo: "var(--parrafo-font-family)",
         "title-XL": "var(--title-XL-font-family)",
       },
+      keyframes: {
+        dotPulse: {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(0.6)", opacity: "0.5" },
+        },
+        triangle: {
+          "0%": {
+            transform: "translate(0, 0) scale(1)",
+            opacity: "0",
+          },
+          "25%": {
+            opacity: "1",
+          },
+          "50%": {
+            transform: "translate(var(--x), var(--y)) scale(1)",
+          },
+          "75%": {
+            opacity: "1",
+          },
+          "100%": {
+            transform: "translate(0, 0) scale(1)",
+            opacity: "0",
+          },
+        },
+      },
+      animation: {
+        "dot-pulse": "dotPulse 2s ease-in-out infinite",
+        triangle: "triangle 2s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

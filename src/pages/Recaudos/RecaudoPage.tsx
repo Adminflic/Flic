@@ -131,13 +131,17 @@ import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
 import { FiltersComponent } from '../../components/ui/Tabla/FiltersComponent';
 import DataTableComponent from '../../components/ui/Tabla/DataTableComponent';
 import PaginationComponent from '../../components/ui/Tabla/PaginationComponent';
+import Loading from '../../../src/assets/animations/loading.json'
 
 import './RecaudosPage.css';
+import Lottie from 'lottie-react';
 
 const RecaudoPage = () => {
     const {
         allUsers,
+        allExport,
         filteredUsers,
+        filteredExport,
         currentUsers,
         search,
         setSearch,
@@ -152,21 +156,26 @@ const RecaudoPage = () => {
         fechaFinal,
         setFechaFinal,
         loadPage,
-        limpiarFiltrosFecha
+        limpiarFiltrosFecha,
+        isDetailsModalVisible,
+        setIsDetailsModalVisible,
     } = useDataTable()
 
     // Handlers de exportación
     const handleExportCSV = () => {
-        const dataToExport = search || fechaInicial || fechaFinal ? filteredUsers : allUsers
+        // const dataToExport = search || fechaInicial || fechaFinal ? filteredUsers : allUsers
+        const dataToExport = search || fechaInicial || fechaFinal ? filteredExport : allExport
+
         exportToCSV(dataToExport)
     }
 
     const handleExportExcel = () => {
-        const dataToExport = search || fechaInicial || fechaFinal ? filteredUsers : allUsers
+        // const dataToExport = search || fechaInicial || fechaFinal ? filteredUsers : allUsers
+        const dataToExport = search || fechaInicial || fechaFinal ? filteredExport : allExport
         exportToExcel(dataToExport)
     }
 
-     useEffect(() => {
+    useEffect(() => {
         const hoy = new Date();
         const yyyy = hoy.getFullYear();
         const mm = String(hoy.getMonth() + 1).padStart(2, "0");
@@ -190,6 +199,10 @@ const RecaudoPage = () => {
                     </div>
                     <p className='mt-2 text-muted'>Cargando datos... Esto puede tomar unos segundos</p>
                 </div>
+
+                //     <div className='flex justify-center'>
+                //     <Lottie animationData={Loading} className='w-fit h-fit' />
+                // </div>
             )}
 
             {/* Contenido principal */}
@@ -210,8 +223,9 @@ const RecaudoPage = () => {
                             loadingAll={loadingAll}
                             onClearFilters={limpiarFiltrosFecha}
                             onExportCSV={handleExportCSV}
-                            onExportExcel={handleExportExcel}
+                            onExportExcel={handleExportExcel}   
                             allUsers={allUsers}
+                            setIsDetailsModalVisible={setIsDetailsModalVisible}
                         />
 
                         {/* Información de resultados */}
@@ -235,27 +249,31 @@ const RecaudoPage = () => {
 
                         {/* Tabla */}
                         <DataTableComponent
-                        currentUsers={currentUsers}
-                        search={search}
-                        fechaInicial={fechaInicial}
-                        fechaFinal={fechaFinal}
-                        loadingAll={loadingAll}
-                    />
+                            currentUsers={currentUsers}
+                            search={search}
+                            fechaInicial={fechaInicial}
+                            fechaFinal={fechaFinal}
+                            loadingAll={loadingAll}
+                            modalVisible={isDetailsModalVisible}
+                            onModalVisible={setIsDetailsModalVisible}
+                        />
 
                         {/* Paginación */}
                         {totalPages > 1 && (
-                        <PaginationComponent
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            filteredUsers={filteredUsers}
-                            onPageChange={loadPage}
-                            loadingAll={loadingAll}
-                        />
-                    )}
+                            <PaginationComponent
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                filteredUsers={filteredUsers}
+                                onPageChange={loadPage}
+                                loadingAll={loadingAll}
+                            />
+                        )}
                     </div>
 
                 </>
             )}
+
+
         </div>
     )
 };

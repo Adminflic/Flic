@@ -136,7 +136,7 @@ const PaginationComponent = ({
 
   const renderPageNumbers = () => {
     const pages = [];
-    const maxPagesToShow = 5;
+    const maxPagesToShow = 3;
 
     let startPage = Math.max(
       1,
@@ -190,7 +190,7 @@ const PaginationComponent = ({
       {/* LADO DERECHO */}
       <div className="flex items-center gap-1">
 
-        <p>`{}`</p>
+        <p>Página {currentPage} de {totalPages}</p>
         {/* Primera página */}
         <button
           onClick={() => onPageChange(1)}

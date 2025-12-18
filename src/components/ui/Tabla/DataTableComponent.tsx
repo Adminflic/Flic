@@ -2,26 +2,30 @@ import React, { useState } from 'react'
 import './DataTableComponent.css'
 import RecordDetailsModal from '../Modals/RecordDetailsModal'
 import ColumnSelectorModal from '../Modals/ColumnSelectorModal'
+import RecaudosNotFound from '../../../assets/icons/RecaudosNoEncontrados.svg'
 import { History } from 'lucide-react'
 
-const DataTableComponent = ({ 
-    currentUsers, 
+const DataTableComponent = ({
+    currentUsers,
     search,
     fechaInicial,
     fechaFinal,
-    loadingAll
+    loadingAll,
+    modalVisible,
+    onModalVisible
 }) => {
     const [selectedRecord, setSelectedRecord] = useState(null)
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
     const [isColumnModalVisible, setIsColumnModalVisible] = useState(false)
+
     const [visibleColumns, setVisibleColumns] = useState([
-        'id', 'trpaDocu', 'trpaPyto', 'trpaNuau', 'trpaValo', 
+        'id', 'trpaDocu', 'trpaPyto', 'trpaNuau', 'trpaValo',
         'trpaEnti', 'convNuco', 'careNomb', 'estaNomb'
     ])
 
     // Todas las columnas disponibles
     const allColumns = [
-        'id', 'trpaCodi', 'trpaDocu', 'trpaNufa', 'trpaPyto', 
+        'id', 'trpaCodi', 'trpaDocu', 'trpaNufa', 'trpaPyto',
         'trpaNuau', 'trpaNuuf', 'trpaIdtr', 'trpaDesc', 'trpaCome',
         'trpaEsta', 'estaNomb', 'trpaValo', 'trpaPrre', 'trpaSere',
         'trpaTere', 'trpaCure', 'trpaPure', 'pureDesc', 'trpaEnti',
@@ -81,9 +85,9 @@ const DataTableComponent = ({
 
     const renderCell = (user, columnKey) => {
         const value = user[columnKey]
-        
+
         if (value === null || value === undefined || value === '') return 'N/A'
-        
+
         // Formatear fechas
         if (columnKey.includes('Feve') || columnKey.includes('Fear') || columnKey.includes('Fecr')) {
             try {
@@ -92,12 +96,12 @@ const DataTableComponent = ({
                 return value
             }
         }
-        
+
         // Formatear valores monetarios
         if (columnKey === 'trpaValo') {
             return `$${Number(value).toLocaleString('es-ES')}`
         }
-        
+
         return String(value)
     }
 
@@ -131,7 +135,7 @@ const DataTableComponent = ({
                                     <th className='fixed-header-logs'>Logs</th>
                                 </tr>
                             </thead>
-                            
+
                             <tbody>
                                 {currentUsers.map((user, index) => (
                                     <tr key={user.id || index}>
@@ -143,19 +147,48 @@ const DataTableComponent = ({
                                         ))}
                                         {/* Columnas fijas */}
                                         <td className='fixed-column-estado'>
-                                            <span className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}>
-                                                ● 
+                                            <button
+                                                title={`${user.estaNomb === 'Aprobada' ? 'Aprobada' : user.estaNomb === 'Rechazada' ? 'Rechazada' : 'No Notificada'}`}
+                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}>
+                                                ●
                                                 {/* {user.estaNomb || 'N/A'} */}
-                                            </span>
+                                            </button>
                                         </td>
                                         <td className='fixed-column-logs'>
-                                            <button 
-                                               className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}
+                                            <button
+                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}
                                                 title="Ver detalles completos"
                                                 onClick={() => handleLogClick(user)}
                                             >
                                                 <History size={18} />
                                             </button>
+
+                                            {/* <div className="relative group inline-flex">
+                                                <button
+                                                    className={`text-xl
+                                                            ${user.estaNomb === "Aprobada"
+                                                            ? "text-green-600"
+                                                            : user.estaNomb === "Rechazada"
+                                                                ? "text-red-600"
+                                                                : "text-orange-600"
+                                                        }`}
+                                                    onClick={() => handleLogClick(user)}
+                                                >
+                                                    <History size={18} />
+                                                </button>
+
+                                                Tooltip
+                                                <div
+                                                    className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
+                                                                whitespace-nowrap px-3 py-1.5 rounded-md
+                                                                bg-gray-900 text-white text-xs
+                                                                opacity-0 group-hover:opacity-100
+                                                                transition pointer-events-none shadow-lg"
+                                                >
+                                                    Ver detalles completos
+                                                </div>
+                                            </div> */}
+
                                         </td>
                                     </tr>
                                 ))}
@@ -166,8 +199,18 @@ const DataTableComponent = ({
                     {currentUsers.length === 0 && !loadingAll && (
                         <div className='text-center py-4'>
                             <p className='text-muted'>
-                                {search || fechaInicial || fechaFinal ? 
-                                    'No se encontraron resultados para los filtros aplicados' : 
+                                {search || fechaInicial || fechaFinal ?
+                                    (
+                                        <div className='flex flex-col justify-center items-center'>
+                                            <div>
+                                                <img src={RecaudosNotFound} alt="" />
+                                            </div>
+
+                                            <h2 className='tituloState'>No se encontraron recaudos</h2>
+                                            <h6 className='detalleState'>No hay registros que coincidan con los filtros aplicados.  Ajusta los criterios de búsqueda o  rango de fechas e inténtalo nuevamente.</h6>
+                                        </div>
+                                    ) :
+                                    // 'No se encontraron resultados para los filtros aplicados' :
                                     'No hay datos disponibles'
                                 }
                             </p>
@@ -177,16 +220,18 @@ const DataTableComponent = ({
             </div>
 
             {/* Modal de detalles */}
-            <RecordDetailsModal 
+            <RecordDetailsModal
                 record={selectedRecord}
                 isVisible={isDetailsModalVisible}
                 onClose={closeDetailsModal}
             />
 
             {/* Modal de configuración de columnas */}
-            <ColumnSelectorModal 
-                isVisible={isColumnModalVisible}
-                onClose={() => setIsColumnModalVisible(false)}
+            <ColumnSelectorModal
+                // isVisible={isColumnModalVisible}
+                isVisible={modalVisible}
+                // onClose={() => setIsColumnModalVisible(false)} 
+                onClose={() => onModalVisible(false)}
                 availableColumns={allColumns}
                 visibleColumns={visibleColumns}
                 onColumnsChange={handleColumnsChange}

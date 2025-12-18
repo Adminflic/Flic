@@ -18,7 +18,8 @@ export const FiltersComponent = ({
     onClearFilters,
     onExportCSV,
     onExportExcel,
-    allUsers
+    allUsers,
+    setIsDetailsModalVisible
 }) => {
 
     const [onfilter, setOnfilter] = useState(false);
@@ -31,7 +32,7 @@ export const FiltersComponent = ({
         // Validar que fecha final no sea menor que fecha inicial
         if (fechaInicial && nuevaFechaFinal && nuevaFechaFinal < fechaInicial) {
             // alert('La fecha final no puede ser menor que la fecha inicial')
-            toast.error('La fecha final no puede ser menor que la fecha inicial');
+            toast.error('La fecha final no puede ser menor a la fecha inicial');
             setFechaFinal("")
             return
         }
@@ -68,7 +69,7 @@ export const FiltersComponent = ({
                         <div className='flex gap-1.5'>
                             <button
                                 className='buttonLine'
-                                // onClick={() => setIsColumnModalVisible(true)}
+                                onClick={() => setIsDetailsModalVisible(true)}
                                 title="Configurar columnas visibles"
                             >
                                 <Columns3Cog size={18} />

@@ -169,3 +169,31 @@
   text-overflow: ellipsis;
   max-width: 200px;
 }
+
+.tituloState {
+  color: var(--Color-texto-principal, #313A4E);
+  text-align: center;
+
+  /* TitleSecondary */
+  font-family: Manrope;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.875rem;
+  /* 150% */
+}
+
+.detalleState {
+  /* Tamaños */
+  width: 26.3125rem;
+  color: var(--Font-Secondary, #717182);
+  text-align: center;
+
+  /* Parrafo */
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}

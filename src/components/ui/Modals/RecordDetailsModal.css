@@ -115,21 +115,23 @@
 /* Animaciones */
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
+
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
 @keyframes slideInFromRight {
   from {
-      opacity: 0;
-      transform: translateY(-50%) translateX(100%);
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
   }
+
   to {
-      opacity: 1;
-      transform: translateY(-50%) translateX(0);
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
   }
 }
 
@@ -152,26 +154,84 @@
   background: #a8a8a8;
 }
 
+.textBanco {
+  color: var(--Color-texto-principal, #313A4E);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.subTextoBanco {
+  color: var(--Color-semantico-verde, #10B981);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.subFechaBanco {
+  color: var(--Font-Secondary, #717182);
+  font-family: Manrope;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1rem;
+  /* 133.333% */
+}
+
+
+.ContenedorFlicToErp {
+  flex-direction: column;
+  border-radius: 0.625rem;
+  border: 1px solid #E1E1E1;
+  padding: 0.5rem;
+}
+
+.detalleFlicErp {
+  display: flex;
+  height: 1.375rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.textoTypePago {
+  color: var(--Color-texto-principal, #313A4E);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.25rem;
+  /* 142.857% */
+  letter-spacing: 0.04375rem;
+  text-transform: uppercase;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .record-modal {
-      right: 10px;
-      left: 10px;
-      width: auto;
-      max-width: none;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: none;
   }
-  
+
   .detail-item {
-      flex-direction: column;
-      gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
-  
+
   .detail-label {
-      min-width: auto;
-      margin-right: 0;
+    min-width: auto;
+    margin-right: 0;
   }
-  
+
   .detail-value {
-      text-align: left;
+    text-align: left;
   }
 }

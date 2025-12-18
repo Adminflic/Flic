@@ -3,7 +3,11 @@ import { useState, useEffect } from 'react';
 export const useDataTable = () => {
     // Estados
     const [allUsers, setAllUsers] = useState([])
+    const [allExport, setAllExport] = useState([])
+
     const [filteredUsers, setFilteredUsers] = useState([])
+    const [filteredExport, setFilteredExport] = useState([])
+
     const [currentUsers, setCurrentUsers] = useState([])
     const [search, setSearch] = useState("")
     const [searchOptions, setSearchOptions] = useState([])
@@ -12,6 +16,9 @@ export const useDataTable = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [totalRegistros, setTotalRegistros] = useState(0)
     const [loadingAll, setLoadingAll] = useState(false)
+
+    // Modales 
+    const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
 
     // Estados para fechas
     const [fechaInicial, setFechaInicial] = useState("")
@@ -90,8 +97,49 @@ export const useDataTable = () => {
 
 
     // Función para construir la URL con parámetros opcionales
+
+    const EXPORT_FIELDS = [
+        { key: "id", label: "ID" },
+        { key: "trpaDocu", label: "Documento" },
+        { key: "trpaNufa", label: "Número Factura" },
+        { key: "trpaNuau", label: "Autorización" },
+        { key: "estaNomb", label: "Estado" },
+        { key: "trpaValo", label: "Valor", format: "currency" },
+        { key: "trpaFecr", label: "Fecha Creación", format: "date" },
+        { key: "mepaDesc", label: "Medio de Pago" },
+        { key: "trpaEnti", label: "Entidad" },
+    ];
+
+    const formatValue = (value, type) => {
+        if (value === null || value === undefined) return "";
+
+        switch (type) {
+            case "currency":
+                return `$${Number(value).toLocaleString("es-CO")}`;
+
+            case "date":
+                return new Date(value).toLocaleString("es-CO");
+
+            default:
+                return value;
+        }
+    };
+
+    const mapDataForExport = (data) => {
+        return data.map((item) => {
+            const mappedItem = {};
+
+            EXPORT_FIELDS.forEach(({ key, label, format }) => {
+                mappedItem[label] = formatValue(item[key], format);
+            });
+
+            return mappedItem;
+        });
+    };
+
+
     const buildURL = (page) => {
-        let URL = `https://flicservicios.com:9556/api/Transacciones/TransaccionesFlic/202?pageNumber=${page}&pageSize=100`
+        let URL = `https://flicservicios.com:9556/api/Transacciones/TransaccionesFlic/201?pageNumber=${page}&pageSize=100`
 
         // Agregar parámetros de fecha solo si tienen valor
         if (fechaInicial) {
@@ -109,26 +157,30 @@ export const useDataTable = () => {
         setLoadingAll(true)
         try {
             let allData = []
+            let allExportData = []
             let page = 1
             let hasMorePages = true
 
             // Cargar todas las páginas
             while (hasMorePages) {
                 const URL = buildURL(page)
-                console.log('Cargando URL:', URL)
+                // console.log('Cargando URL:', URL)
 
                 const response = await fetch(URL)
                 const data = await response.json()
 
-                console.log(`Cargando página ${page}:`, data.data?.length, 'registros')
+                // console.log(`Cargando página ${page}:`, data.data?.length, 'registros')
 
                 if (data.data && data.data.length > 0) {
                     allData = [...allData, ...data.data]
 
+                    allExportData = mapDataForExport(allData);
+                    // console.log(`Dataexport - | ${JSON.stringify(allExportData)}`);
+
                     // Configurar opciones de búsqueda solo la primera vez
                     if (searchOptions.length === 0 && data.data.length > 0) {
                         const propiedades = Object.keys(data.data[0])
-                        console.log('object', { propiedades });
+                        // console.log('object', { propiedades });
 
                         // const labeledFields = fields
                         //     .filter(f => propiedades.includes(f.key))
@@ -162,12 +214,14 @@ export const useDataTable = () => {
             }
 
             setAllUsers(allData)
+            setAllExport(allExportData)
             setFilteredUsers(allData)
+            setFilteredExport(allExportData)
             setTotalRegistros(allData.length)
             setTotalPages(Math.ceil(allData.length / pageSize))
             updateCurrentUsers(allData, 1)
 
-            console.log('Todos los datos cargados:', allData.length, 'registros')
+            // console.log('Todos los datos cargados:', allData.length, 'registros')
 
         } catch (error) {
             console.error("Error loading all data:", error)
@@ -255,7 +309,9 @@ export const useDataTable = () => {
     return {
         // Estados
         allUsers,
+        allExport,
         filteredUsers,
+        filteredExport,
         currentUsers,
         search,
         setSearch,
@@ -270,6 +326,8 @@ export const useDataTable = () => {
         setFechaInicial,
         fechaFinal,
         setFechaFinal,
+        isDetailsModalVisible,
+        setIsDetailsModalVisible,
 
         // Funciones
         loadPage,
