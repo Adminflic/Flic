@@ -19,18 +19,25 @@ const DataTableComponent = ({
     const [isColumnModalVisible, setIsColumnModalVisible] = useState(false)
 
     const [visibleColumns, setVisibleColumns] = useState([
-        'id', 'trpaDocu', 'trpaPyto', 'trpaNuau', 'trpaValo',
-        'trpaEnti', 'convNuco', 'careNomb', 'estaNomb'
+        'sociNomb', 'trpaIdtr', 'trpaPyto', 'trpaValo', 'trpaNufa',
+        'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
+        'careNomb', 'mepaDesc', 'trpaEnti', 'convNuco', 'trpaFear',
+        'trpaFecr', 'pureDesc'
     ])
 
     // Todas las columnas disponibles
     const allColumns = [
-        'id', 'trpaCodi', 'trpaDocu', 'trpaNufa', 'trpaPyto',
-        'trpaNuau', 'trpaNuuf', 'trpaIdtr', 'trpaDesc', 'trpaCome',
-        'trpaEsta', 'estaNomb', 'trpaValo', 'trpaPrre', 'trpaSere',
-        'trpaTere', 'trpaCure', 'trpaPure', 'pureDesc', 'trpaEnti',
-        'convNuco', 'trpaFeve', 'trpaFear', 'trpaFecr', 'mepaDesc',
-        'mepaTipo', 'sociNomb', 'trpaBanc', 'careNomb', 'estaNoti'
+        // 'id', 'trpaCodi', 'trpaDocu', 'trpaNufa', 'trpaPyto',
+        // 'trpaNuau', 'trpaNuuf', 'trpaIdtr', 'trpaDesc', 'trpaCome',
+        // 'trpaEsta', 'estaNomb', 'trpaValo', 'trpaPrre', 'trpaSere',
+        // 'trpaTere', 'trpaCure', 'trpaPure', 'pureDesc', 'trpaEnti',
+        // 'convNuco', 'trpaFeve', 'trpaFear', 'trpaFecr', 'mepaDesc',
+        // 'mepaTipo', 'sociNomb', 'trpaBanc', 'careNomb', 'estaNoti'
+
+        'sociNomb', 'trpaIdtr', 'trpaPyto', 'trpaValo', 'trpaNufa',
+        'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
+        'careNomb', 'mepaDesc', 'trpaEnti', 'convNuco', 'trpaFear',
+        'trpaFecr', 'pureDesc'
     ]
 
     const handleLogClick = (record) => {
@@ -49,47 +56,89 @@ const DataTableComponent = ({
 
     const getColumnLabel = (columnKey) => {
         const columnLabels = {
-            'id': 'ID',
-            'trpaCodi': 'Código',
-            'trpaDocu': 'Documento',
-            'trpaNufa': 'Núm. Factura',
-            'trpaPyto': 'Proyecto',
-            'trpaNuau': 'Núm. Autorización',
-            'trpaNuuf': 'Núm. UF',
-            'trpaIdtr': 'ID Transacción',
-            'trpaDesc': 'Descripción',
-            'trpaCome': 'Comercio',
-            'trpaEsta': 'Código Estado',
-            'estaNomb': 'Estado',
+            'sociNomb': 'Sociedad',
+            'trpaIdtr': 'ID de recaudo',
+            'trpaPyto': 'No. de autorizacion',
             'trpaValo': 'Valor',
-            'trpaPrre': 'Referencia Pago',
-            'trpaSere': 'Serial Recaudo',
-            'trpaTere': 'Tipo Recaudo',
-            'trpaCure': 'Cuenta Recaudo',
-            'trpaPure': 'Punto Recaudo',
-            'pureDesc': 'Desc. Punto Recaudo',
+            'trpaNufa': 'No. de factura',
+            'trpaDocu': 'Ref. principal',
+            'trpaPrre': 'Ref. 1',
+            'trpaSere': 'Ref. 2',
+            'trpaTere': 'Ref. 3',
+            'trpaCure': 'Ref. 4',
+            'careNomb': 'Tipo de recaudo',
+            'mepaDesc': 'Medio de pago',
             'trpaEnti': 'Entidad',
             'convNuco': 'Convenio',
-            'trpaFeve': 'Fecha Vencimiento',
-            'trpaFear': 'Fecha Aprobación',
-            'trpaFecr': 'Fecha Creación',
-            'mepaDesc': 'Desc. Medio Pago',
-            'mepaTipo': 'Tipo Medio Pago',
-            'sociNomb': 'Nombre Socio',
-            'trpaBanc': 'Banco',
-            'careNomb': 'Nombre Caja',
-            'estaNoti': 'Notificación Estado'
+            // Cuenta destino
+            // Ubicación
+            'trpaFear': 'Fecha de recaudo',
+            'trpaFecr': 'Fecha de creación',
+            'pureDesc': 'Canal de recaudo',
+
+
+            // 'trpaPure': 'Canal ',
+            // 'id': 'ID',
+            // 'trpaCodi': 'Código',
+            // 'trpaNuau': 'Núm. Autorización',
+            // 'trpaNuuf': 'Núm. UF',
+            // 'trpaDesc': 'Descripción',
+            // 'trpaCome': 'Comercio',
+            // 'trpaEsta': 'Código Estado',
+            // 'estaNomb': 'Estado',
+            // 'trpaFeve': 'Fecha Vencimiento',
+            // 'mepaTipo': 'Tipo Medio Pago',
+            // 'trpaBanc': 'Banco',
+            // 'estaNoti': 'Notificación Estado'
         }
         return columnLabels[columnKey] || columnKey
     }
 
-    const renderCell = (user, columnKey) => {
-        const value = user[columnKey]
+    // const renderCell = (user, columnKey) => {
+    //     const value = user[columnKey]
 
-        if (value === null || value === undefined || value === '') return 'N/A'
+    //     if (value === null || value === undefined || value === '') return 'N/A'
 
-        // Formatear fechas
-        if (columnKey.includes('Feve') || columnKey.includes('Fear') || columnKey.includes('Fecr')) {
+    //     // Formatear fechas  || columnKey.includes('Fear')
+    //     if (columnKey.includes('Feve') || columnKey.includes('Fecr')) {
+    //         try {
+    //             return new Date(value).toLocaleDateString('es-ES')
+    //         } catch {
+    //             return value
+    //         }
+    //     }
+
+    //     // Formatear valores monetarios
+    //     if (columnKey === 'trpaValo') {
+    //         return `$${Number(value).toLocaleString('es-ES')}`
+    //     }
+
+    //     return String(value)
+    // }
+
+    const renderCell = (user: any, columnKey: string) => {
+        const value = user[columnKey];
+
+        if (value === null || value === undefined || value === "") return "N/A";
+
+        // FEAR → fecha + hora (24h)
+        if (columnKey.includes("Fear")) {
+            const fecha = new Date(value);
+
+            if (isNaN(fecha.getTime())) return value;
+
+            const dia = fecha.getDate().toString().padStart(2, "0");
+            const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+            const anio = fecha.getFullYear();
+
+            const horas = fecha.getHours().toString().padStart(2, "0");
+            const minutos = fecha.getMinutes().toString().padStart(2, "0");
+
+            return `${dia}/${mes}/${anio}, ${horas}:${minutos}`;
+        }
+
+        // Otras fechas (solo fecha)
+        if (columnKey.includes('Feve') || columnKey.includes('Fecr')) {
             try {
                 return new Date(value).toLocaleDateString('es-ES')
             } catch {
@@ -97,13 +146,14 @@ const DataTableComponent = ({
             }
         }
 
-        // Formatear valores monetarios
-        if (columnKey === 'trpaValo') {
-            return `$${Number(value).toLocaleString('es-ES')}`
+        // Valores monetarios
+        if (columnKey === "trpaValo") {
+            return `$${Number(value).toLocaleString("es-ES")}`;
         }
 
-        return String(value)
-    }
+        return String(value);
+    };
+
 
     return (
         <>
@@ -149,14 +199,14 @@ const DataTableComponent = ({
                                         <td className='fixed-column-estado'>
                                             <button
                                                 title={`${user.estaNomb === 'Aprobada' ? 'Aprobada' : user.estaNomb === 'Rechazada' ? 'Rechazada' : 'No Notificada'}`}
-                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}>
+                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-[--Color-semantico-naranja]'}`}>
                                                 ●
                                                 {/* {user.estaNomb || 'N/A'} */}
                                             </button>
                                         </td>
                                         <td className='fixed-column-logs'>
                                             <button
-                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-orange-600'}`}
+                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-[#5B21B6]' : user.estaNomb === 'Rechazada' ? 'text-[#5B21B6]' : 'text-[--Color-semantico-naranja]'}`}
                                                 title="Ver detalles completos"
                                                 onClick={() => handleLogClick(user)}
                                             >

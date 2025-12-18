@@ -19,6 +19,8 @@
   --Background: #FFFFFF;
   --Color-texto-principal: #313A4E;
   --Color-semantico-verde: #10B981;
+  --Color-semantico-naranja: #F59E0B;
+  --Destructive-200:#FEF2F2;
 
   font-family: "Manrope", sans-serif;
   box-sizing: border-box;

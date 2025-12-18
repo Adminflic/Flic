@@ -193,16 +193,16 @@ const RecaudoPage = () => {
             </div>
             {/* Loading inicial */}
             {loadingAll && (
-                <div className='text-center py-5'>
-                    <div className='spinner-border text-primary' role='status'>
-                        <span className='visually-hidden'>Cargando datos...</span>
-                    </div>
-                    <p className='mt-2 text-muted'>Cargando datos... Esto puede tomar unos segundos</p>
-                </div>
-
-                //     <div className='flex justify-center'>
-                //     <Lottie animationData={Loading} className='w-fit h-fit' />
+                // <div className='text-center py-5'>
+                //     <div className='spinner-border text-primary' role='status'>
+                //         <span className='visually-hidden'>Cargando datos...</span>
+                //     </div>
+                //     <p className='mt-2 text-muted'>Cargando datos... Esto puede tomar unos segundos</p>
                 // </div>
+
+                <div className='flex justify-center'>
+                    <Lottie animationData={Loading} className='w-fit h-fit' />
+                </div>
             )}
 
             {/* Contenido principal */}
@@ -223,7 +223,7 @@ const RecaudoPage = () => {
                             loadingAll={loadingAll}
                             onClearFilters={limpiarFiltrosFecha}
                             onExportCSV={handleExportCSV}
-                            onExportExcel={handleExportExcel}   
+                            onExportExcel={handleExportExcel}
                             allUsers={allUsers}
                             setIsDetailsModalVisible={setIsDetailsModalVisible}
                         />

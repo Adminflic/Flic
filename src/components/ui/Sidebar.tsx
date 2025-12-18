@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings } from "lucide-react";
 import LogotipoFlic from '../../assets/icons/LogotipoFlic.svg';
 import { useNavigate } from "react-router-dom";
-
+import './Sidebar.css' ;
 
 export default function SidebarFlic() {
   const [open, setOpen] = useState(true); // submenu abierto
@@ -13,12 +13,12 @@ export default function SidebarFlic() {
   return (
     // border-r
     <aside
-      className={`h-screen bg-white  transition-all duration-200 ease-in-out flex flex-col items-stretch ${collapsed ? "w-20" : "w-64"
+      className={`h-screen bg-white asideFondo transition-all duration-200 ease-in-out flex flex-col items-stretch ${collapsed ? "w-20" : "w-64"
         }`}
       aria-expanded={!collapsed}
     >
       {/* Header: logo + collapse button */}
-      <div className="flex items-center justify-between p-3">
+      <div className="flex items-center justify-between p-3 relative">
         <div className="flex items-center gap-2">
           <img src={LogotipoFlic} alt="Logo Flic" className='w-10' />
           {!collapsed && <span className="font-semibold text-xl text-purple-700">Flic</span>}
@@ -27,9 +27,9 @@ export default function SidebarFlic() {
         <button
           aria-label={collapsed ? "Abrir sidebar" : "Cerrar sidebar"}
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1 rounded-full bg-white shadow-sm border hover:shadow-md"
+          className={`p-1 rounded-full bg-white shadow-sm border hover:shadow-md absolute  z-30 ${collapsed ? 'left-17.5': 'left-61'}`}
         >
-          {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+          {collapsed ? <ChevronRight size={10} /> : <ChevronLeft size={10} />}
         </button>
       </div>
 
@@ -95,7 +95,7 @@ function SubItem({ label, icon, active = false, collapsed = false, onClick }: Su
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer ${active ? "bg-purple-600 text-white" : "hover:bg-gray-100"
+      className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer ${active ? "bg-[#5B21B6] text-white" : "hover:bg-gray-100"
         }`}
       aria-current={active}
     >

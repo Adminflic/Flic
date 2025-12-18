@@ -1,8 +1,9 @@
-import { Calendar, ChevronDown, ChevronUp, Columns3Cog, Download, FileDown, Funnel, Search, X } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { Calendar, CalendarCheck2, ChevronDown, ChevronUp, Columns3Cog, Download, FileDown, Funnel, Search, X } from 'lucide-react'
+import React, { useEffect, useRef, useState } from 'react'
 import { toast, Toaster } from 'sonner';
 
 import './Filter.css';
+import { createPortal } from 'react-dom';
 
 export const FiltersComponent = ({
     fechaInicial,
@@ -24,6 +25,44 @@ export const FiltersComponent = ({
 
     const [onfilter, setOnfilter] = useState(false);
     const [onExport, setOnExport] = useState(false);
+    const [fechaHoy, setFechaHoy] = useState(false);
+
+    const startRef = useRef<HTMLInputElement>(null);
+    const endRef = useRef<HTMLInputElement>(null);
+    const exportRef = useRef<HTMLDivElement>(null);
+
+
+    useEffect(() => {
+        isFechaHoy(fechaInicial)
+    }, [fechaInicial])
+
+    useEffect(() => {
+        if (!onExport) return;
+
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                exportRef.current &&
+                !exportRef.current.contains(event.target as Node)
+            ) {
+                setOnExport(false);
+            }
+        };
+
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setOnExport(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleEsc);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEsc);
+        };
+    }, [onExport]);
+
 
     const handleFechaFinalChange = (e) => {
         const nuevaFechaFinal = e.target.value
@@ -46,7 +85,22 @@ export const FiltersComponent = ({
         setSelectedField(e.target.value)
     }
 
-   
+    const isFechaHoy = (fechaFiltro: string) => {
+        const hoy = new Date();
+        const fechaHoy = hoy.toISOString().split("T")[0];
+
+        setFechaHoy(fechaHoy === fechaFiltro);
+    };
+
+    const openPicker = (ref: React.RefObject<HTMLInputElement>) => {
+        if (!ref.current) return;
+
+        if (ref.current.showPicker) {
+            ref.current.showPicker();
+        } else {
+            ref.current.focus();
+        }
+    };
 
     return (
 
@@ -57,7 +111,17 @@ export const FiltersComponent = ({
                     <div className='flex justify-between'>
                         <div className='flex gap-0.5 justify-center content-center buttonFilter' onClick={() => setOnfilter(!onfilter)}>
                             <Funnel size={18} className='text-purple-900' />
-                            <h5 className=''>Filtros</h5>
+                            <h5 className='textoFiltro'>Filtros</h5>
+
+                            {
+                                fechaHoy && (
+                                    <div className='flex flex-row justify-center items-center gap-0.5 calendarHoy'>
+                                        <CalendarCheck2 size={15} className='textoCalendario' />
+                                        <span className='textoCalendario'>Hoy</span>
+                                    </div>
+                                )
+                            }
+
                             {
                                 onfilter ?
                                     <ChevronDown size={18} />
@@ -94,9 +158,10 @@ export const FiltersComponent = ({
                                 <div className='flex justify-center items-center gap-2.5'>
                                     <div className='flex flex-col '>
                                         <label className=''>Fecha desde <b className='text-red-600'>*</b></label>
-                                        <div className='inputDate'>
+                                        <div className='inputDate ' onClick={() => openPicker(startRef)}>
                                             <Calendar size={18} />
                                             <input
+                                                ref={startRef}
                                                 type='date'
                                                 value={fechaInicial}
                                                 onChange={(e) => setFechaInicial(e.target.value)}
@@ -109,9 +174,10 @@ export const FiltersComponent = ({
 
                                     <div className='flex flex-col '>
                                         <label className=''>Fecha hasta <b className='text-red-600'>*</b></label>
-                                        <div className='inputDate'>
+                                        <div className='inputDate' onClick={() => openPicker(endRef)}>
                                             <Calendar size={18} />
                                             <input
+                                                ref={endRef}
                                                 type='date'
                                                 value={fechaFinal}
                                                 onChange={handleFechaFinalChange}
@@ -178,7 +244,7 @@ export const FiltersComponent = ({
                                     }
 
                                     {
-                                        search && (
+                                        (search || fechaFinal) && (
                                             <div className='flex flex-row justify-center items-center w-35  mt-5'>
                                                 <X />
                                                 <button
@@ -203,10 +269,12 @@ export const FiltersComponent = ({
                 </div>
             </div>
 
-            {
+            {/* {
                 onExport && (
                     <>
-                        <div className='absolute top-68 right-6 border-1 border-gray-400 rounded-lg bg-white'>
+                        <div className='absolute top-68 right-6 border-1 
+                        border-gray-400 rounded-lg bg-white'
+                        >
                             <div className="flex flex-col p-3 justify-center">
                                 <button
                                     onClick={onExportCSV}
@@ -228,7 +296,42 @@ export const FiltersComponent = ({
                         </div>
                     </>
                 )
+            } */}
+
+
+            {onExport &&
+                createPortal(
+                    <div
+                        ref={exportRef}
+                        className="fixed top-[280px] right-16 z-[9999]
+                        bg-white border border-gray-400
+                        rounded-lg shadow-lg"
+                    >
+                        <div className="flex flex-col p-3">
+                            <button
+                                onClick={onExportCSV}
+                                disabled={allUsers.length === 0 || loadingAll}
+                                className="flex gap-2.5 items-center p-2.5 exportHover"
+                            >
+                                <FileDown size={18} />
+                                Exportar CSV
+                            </button>
+
+                            <button
+                                onClick={onExportExcel}
+                                disabled={allUsers.length === 0 || loadingAll}
+                                className="flex gap-2.5 items-center p-2.5 exportHover"
+                            >
+                                <FileDown size={18} />
+                                Exportar Excel
+                            </button>
+                        </div>
+                    </div>,
+                    document.body
+                )
             }
+
+
 
 
         </>

@@ -9,11 +9,12 @@
   max-height: 80vh;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); */
   z-index: 1060;
   display: flex;
   flex-direction: column;
   animation: scaleIn 0.3s ease-out;
+  
 }
 
 .column-selector-backdrop {
@@ -22,10 +23,13 @@
 
 /* Header del modal */
 .column-selector-modal .modal-header {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
+  /* background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); */
+  color: var(--Color-texto-principal);
+  /* font-weight: 700; */
+  /* font-family: Manrope; */
   border-radius: 12px 12px 0 0;
   padding: 1.25rem 1.5rem;
+  background: #FFF;
 }
 
 .column-selector-modal .modal-title {
@@ -39,7 +43,9 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
-  background: #f8f9fa;
+  /* background: #f8f9fa; */
+  background: #FFF;
+
 }
 
 /* Acciones de selección */
@@ -68,7 +74,7 @@
 /* Grid de columnas */
 .columns-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
   gap: 0.75rem;
   max-height: 400px;
   overflow-y: auto;
@@ -89,7 +95,7 @@
 .column-item:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
-  border-color: #4facfe;
+  border-color: var( --Accent-Hover);
 }
 
 .column-item .form-check {
@@ -122,32 +128,79 @@
 
 /* Checkbox personalizado */
 .form-check-input:checked {
-  background-color: #4facfe;
-  border-color: #4facfe;
+  background-color: #5B21B6;
+  border-color: #5B21B6;
 }
 
 .form-check-input:focus {
-  border-color: #4facfe;
-  box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+  border-color: #5B21B6;
+  /* box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25); */
 }
 
 /* Footer del modal */
 .column-selector-modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
   background: white;
-  border-top: 1px solid #dee2e6;
+  /* border-top: 1px solid #dee2e6; */
   border-radius: 0 0 12px 12px;
   padding: 1rem 1.5rem;
+}
+
+.tituloOrden {
+  /* color: var(--Font-Secondary, #717182); */
+  font-family: Manrope;
+  /* font-size: 0.90rem; */
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.textoSecundario {
+  color: var(--Font-Secondary, #717182);
+  font-family: Manrope;
+  font-size: 0.90rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.btnCancelar {
+  display: inline-flex;
+  height: 2.25rem;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.5rem;
+  border: 1px solid var(--Border, #E1E1E1);
+  background: var(--Background, #FFF);
+}
+
+.btnAplicar {
+  display: inline-flex;
+  height: 2.25rem;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 0.5rem;
+  background: var(--Accent-Hover, #6D28D9);
+  color: #FFF;
 }
 
 /* Animaciones */
 @keyframes scaleIn {
   from {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
   }
+
   to {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -156,7 +209,7 @@
   width: 6px;
 }
 
-.columns-grid::-webkit-scrollbar-track {
+/* .columns-grid::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 3px;
 }
@@ -164,7 +217,7 @@
 .columns-grid::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
-}
+} */
 
 .columns-grid::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
@@ -173,16 +226,16 @@
 /* Responsive */
 @media (max-width: 768px) {
   .column-selector-modal {
-      width: 95vw;
-      height: 90vh;
+    width: 95vw;
+    height: 90vh;
   }
-  
+
   .columns-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
-  
+
   .selection-actions {
-      justify-content: center;
+    justify-content: center;
   }
 }
 

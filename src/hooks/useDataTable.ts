@@ -28,7 +28,7 @@ export const useDataTable = () => {
 
     const fieldLabels = {
         // id: "ID del recaudo",
-        trpaCodi: "ID del recaudo",
+        trpaIdtr: "ID del recaudo",
         convNuco: "Convenio",
         sociNomb: "Sociedad",
         trpaNufa: "Número Factura",
@@ -99,15 +99,23 @@ export const useDataTable = () => {
     // Función para construir la URL con parámetros opcionales
 
     const EXPORT_FIELDS = [
-        { key: "id", label: "ID" },
-        { key: "trpaDocu", label: "Documento" },
-        { key: "trpaNufa", label: "Número Factura" },
-        { key: "trpaNuau", label: "Autorización" },
-        { key: "estaNomb", label: "Estado" },
+        { key: "sociNomb", label: "Sociedad" },
+        { key: "trpaIdtr", label: "ID de recaudo" },
+        { key: "trpaPyto", label: "No. de autorizacion" },
         { key: "trpaValo", label: "Valor", format: "currency" },
-        { key: "trpaFecr", label: "Fecha Creación", format: "date" },
+        { key: "trpaNufa", label: "Número Factura" },
+        { key: "trpaDocu", label: "Ref. principal" },
+        { key: "trpaPrre", label: "Ref. 1" },
+        { key: "trpaSere", label: "Ref. 2" },
+        { key: "trpaTere", label: "Ref. 3" },
+        { key: "trpaCure", label: "Ref. 4" },
+        { key: "careNomb", label: "Tipo de recaudo" },
         { key: "mepaDesc", label: "Medio de Pago" },
         { key: "trpaEnti", label: "Entidad" },
+        { key: "convNuco", label: "Convenio" },
+        { key: "trpaFear", label: "Fecha de recaudo", format: "date" },
+        { key: "trpaFecr", label: "Fecha de creación", format: "date" },
+        { key: "estaNomb", label: "Estado" },
     ];
 
     const formatValue = (value, type) => {
@@ -139,7 +147,8 @@ export const useDataTable = () => {
 
 
     const buildURL = (page) => {
-        let URL = `https://flicservicios.com:9556/api/Transacciones/TransaccionesFlic/201?pageNumber=${page}&pageSize=100`
+        const comercioKey = localStorage.getItem('Comercio');
+        let URL = `https://flicservicios.com:9556/api/Transacciones/TransaccionesFlic/${comercioKey}?pageNumber=${page}&pageSize=100`
 
         // Agregar parámetros de fecha solo si tienen valor
         if (fechaInicial) {
@@ -150,6 +159,15 @@ export const useDataTable = () => {
         }
 
         return URL
+    }
+
+    const inicializarFecha = () => {
+        const hoy = new Date();
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+        const dd = String(hoy.getDate()).padStart(2, "0");
+
+        setFechaInicial(`${yyyy}-${mm}-${dd}`);
     }
 
     // Función para cargar TODOS los datos con filtros de fecha
@@ -213,13 +231,20 @@ export const useDataTable = () => {
                 }
             }
 
-            setAllUsers(allData)
-            setAllExport(allExportData)
-            setFilteredUsers(allData)
-            setFilteredExport(allExportData)
-            setTotalRegistros(allData.length)
-            setTotalPages(Math.ceil(allData.length / pageSize))
-            updateCurrentUsers(allData, 1)
+            // setAllUsers(allData)
+            // setAllExport(allExportData)
+            // setFilteredUsers(allData)
+            // setFilteredExport(allExportData)
+            // setTotalRegistros(allData.length)
+            // setTotalPages(Math.ceil(allData.length / pageSize))
+            // updateCurrentUsers(allData, 1)
+
+            setAllUsers(allData);
+            setFilteredUsers(allData);
+            setCurrentPage(1);
+            setTotalPages(Math.ceil(allData.length / pageSize));
+            updateCurrentUsers(allData, 1);
+
 
             // console.log('Todos los datos cargados:', allData.length, 'registros')
 
@@ -238,36 +263,78 @@ export const useDataTable = () => {
     }
 
     // Filtrar datos - CORREGIDO
+    // const filterData = (searchTerm, field) => {
+    //     if (!searchTerm.trim()) {
+    //         // Si no hay término de búsqueda, mostrar todos los datos
+    //         setFilteredUsers(allUsers)
+    //         setTotalPages(Math.ceil(allUsers.length / pageSize))
+    //         setCurrentPage(1)
+    //         updateCurrentUsers(allUsers, 1)
+    //         return
+    //     }
+
+    //     const filtered = allUsers.filter((user) => {
+    //         if (field === 'todas') {
+    //             // Buscar en todas las columnas
+    //             return Object.values(user).some(value => {
+    //                 if (value === null || value === undefined) return false
+    //                 return String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    //             })
+    //         } else {
+    //             // Buscar en columna específica
+    //             const value = user[field]
+    //             if (value === null || value === undefined) return false
+    //             return String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    //         }
+    //     })
+
+    //     setFilteredUsers(filtered)
+    //     setTotalPages(Math.ceil(filtered.length / pageSize))
+    //     setCurrentPage(1)
+    //     updateCurrentUsers(filtered, 1)
+    // }
+    const resetTableState = () => {
+        setSearch("");
+        setSelectedField("todas");
+
+        setAllUsers([]);
+        setFilteredUsers([]);
+        setFilteredExport([]);
+        setCurrentUsers([]);
+
+        setCurrentPage(1);
+        setTotalPages(1);
+        setTotalRegistros(0);
+    };
+
     const filterData = (searchTerm, field) => {
-        if (!searchTerm.trim()) {
-            // Si no hay término de búsqueda, mostrar todos los datos
-            setFilteredUsers(allUsers)
-            setTotalPages(Math.ceil(allUsers.length / pageSize))
-            setCurrentPage(1)
-            updateCurrentUsers(allUsers, 1)
-            return
+        let baseData = allUsers;
+
+        if (searchTerm.trim()) {
+            baseData = allUsers.filter((user) => {
+                if (field === 'todas') {
+                    return Object.values(user).some(value => {
+                        if (value === null || value === undefined) return false;
+                        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+                    });
+                } else {
+                    const value = user[field];
+                    if (value === null || value === undefined) return false;
+                    return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+                }
+            });
         }
 
-        const filtered = allUsers.filter((user) => {
-            if (field === 'todas') {
-                // Buscar en todas las columnas
-                return Object.values(user).some(value => {
-                    if (value === null || value === undefined) return false
-                    return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-                })
-            } else {
-                // Buscar en columna específica
-                const value = user[field]
-                if (value === null || value === undefined) return false
-                return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-            }
-        })
+        // Tabla
+        setFilteredUsers(baseData);
 
-        setFilteredUsers(filtered)
-        setTotalPages(Math.ceil(filtered.length / pageSize))
-        setCurrentPage(1)
-        updateCurrentUsers(filtered, 1)
-    }
+        // 🔴 EXPORT CORRECTO
+        setFilteredExport(mapDataForExport(baseData));
+
+        setTotalPages(Math.ceil(baseData.length / pageSize));
+        setCurrentPage(1);
+        updateCurrentUsers(baseData, 1);
+    };
 
     // Cambiar de página
     const loadPage = (pageNumber) => {
@@ -278,12 +345,35 @@ export const useDataTable = () => {
     }
 
     // Limpiar filtros de fecha
-    const limpiarFiltrosFecha = () => {
-        setFechaInicial("")
-        setFechaFinal("")
-        // Recargar datos sin filtros
-        loadAllData()
-    }
+    // const limpiarFiltrosFecha = () => {
+    //     const hoy = new Date();
+    //     const yyyy = hoy.getFullYear();
+    //     const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    //     const dd = String(hoy.getDate()).padStart(2, "0");
+
+    //     setFechaInicial(`${yyyy}-${mm}-${dd}`);
+    //     setSelectedField('todas')
+    //     // setFechaInicial("")
+    //     setFechaFinal("")
+    //     setSearch("")
+    //     // setTotalRegistros(0);
+    //     // Recargar datos sin filtros
+    //     loadAllData()
+    // }
+    const limpiarFiltrosFecha = async () => {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+
+    setSearch("");
+    setSelectedField("todas");
+
+    setFechaInicial(`${yyyy}-${mm}-${dd}`);
+    setFechaFinal("");
+
+    await loadAllData();
+};
 
     // Efecto para cargar datos automáticamente solo cuando cambia fechaFinal
     useEffect(() => {
@@ -305,6 +395,11 @@ export const useDataTable = () => {
     useEffect(() => {
         loadAllData()
     }, [])
+
+    useEffect(() => {
+        setFilteredExport(mapDataForExport(filteredUsers));
+        setTotalRegistros(filteredUsers.length);
+    }, [filteredUsers]);
 
     return {
         // Estados

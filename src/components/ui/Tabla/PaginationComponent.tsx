@@ -157,7 +157,7 @@ const PaginationComponent = ({
           className={`px-3 py-1 rounded-md text-sm font-medium border
             ${
               currentPage === i
-                ? "bg-violet-600 text-white border-violet-600"
+                ? "bg-[#5B21B6] text-white border-violet-600"
                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
             }`}
         >
@@ -179,7 +179,7 @@ const PaginationComponent = ({
           disabled
           className="border border-gray-300 rounded-md px-2 py-1 text-sm bg-gray-100 cursor-not-allowed"
         >
-          <option value="25">25</option>
+          <option value="25">10</option>
         </select>
 
         <span>

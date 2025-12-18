@@ -25,7 +25,7 @@ export const Login = () => {
   const [isValidating, setIsValidating] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutos en segundos
-  
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [validationMessage, setValidationMessage] = useState<{
     type: 'success' | 'error';
@@ -59,13 +59,13 @@ export const Login = () => {
     }
   };
 
-  const checkRecuerdame = (/*e: React.FormEvent*/)=>{
+  const checkRecuerdame = (/*e: React.FormEvent*/) => {
     setChecked(!checked);
-    
+
     // e.preventDefault();
     if (!checked) {
       // Guarda credenciales
-      if (values.email.length === 0 && values.password.length === 0 ) return;
+      if (values.email.length === 0 && values.password.length === 0) return;
       localStorage.setItem("email", values.email);
       localStorage.setItem("password", values.password);
     } else {
@@ -278,7 +278,9 @@ export const Login = () => {
     const password = values.password;
 
     try {
-      await login({ email, password });
+      const datalogin = await login({ email, password });
+
+      localStorage.setItem('Comercio',datalogin.comercio);
       // Simulamos un pequeño delay (opcional)
       setTimeout(() => {
         navigate("/dashboard");
@@ -544,11 +546,11 @@ export const Login = () => {
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <div
                   className={`
-              w-5 h-5 rounded-md flex items-center justify-center border
-              transition-all duration-200
-              ${checked ? "bg-purple-600 border-purple-600" : "bg-white border-gray-300"}
-            `}
-                  onClick={() =>  {checkRecuerdame();}}
+                    w-5 h-5 rounded-md flex items-center justify-center border
+                    transition-all duration-200
+                    ${checked ? "bg-purple-600 border-purple-600" : "bg-white border-gray-300"}
+                  `}
+                  onClick={() => { checkRecuerdame(); }}
                 >
                   {checked && <Check className="w-4 h-4 text-white" />}
                 </div>

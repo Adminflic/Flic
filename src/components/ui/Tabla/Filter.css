@@ -5,7 +5,7 @@
   gap: 0.5rem;
 
   border-radius: 0.5rem;
-  background: var(--Secondary, #ECEEF2);
+  /* background: var(--Secondary, #ECEEF2); */
 }
 
 .buttonLine {
@@ -30,24 +30,29 @@
 .inputDate {
   display: flex;
   gap: 5px;
-  justify-content: center;
   align-items: center;
-  /* align-content: center; */
-  padding: 5px;
+  padding: 5px 8px;
   width: 11.25rem;
   height: 2.25rem;
-  padding: Infinitypx 0 0 Infinitypx;
-  /* align-items: flex-start; */
 
   border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.00);
   background: #F3F3F5;
+  cursor: pointer;
 }
 
+.inputDate input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
+  pointer-events: none;
 }
+
 
 .barraDivisor {
   width: 0.0625rem;
@@ -67,4 +72,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 1rem;
   background: var(--Secondary, #ECEEF2);
   color: var(--Primary);
+}
+
+.calendarHoy {
+  display: flex;
+  padding: 0.125rem 0.5rem;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--Primary-Opacity20, rgba(91, 33, 182, 0.20));
+  background: var(--Primary-Opacity05, rgba(91, 33, 182, 0.05));
+}
+
+.textoCalendario {
+  color: var(--Primary-Primary, #5B21B6);
+
+  /* Label */
+  font-family: Manrope;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  /* 166.667% */
+}
+
+.textoFiltro {
+  color: var(--Color-texto-principal, #313A4E);
+  font-family: Manrope;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.40625rem;
+  /* 150% */
 }

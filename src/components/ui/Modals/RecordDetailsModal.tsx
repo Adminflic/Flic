@@ -35,6 +35,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
     const [openData, setOpenData] = useState(false);
 
 
+
     //  const getLogs = useCallback(async () => {
     //     if (!record) return;
 
@@ -77,7 +78,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
 
         getLogs();
         console.log(record);
-    }, [isVisible, record]);
+    }, [isVisible, record,onClose]);
 
 
 
@@ -142,6 +143,9 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
 
     const getLogs = async () => {
         if (!record) return;
+        setLogsPagoTramaRequest("");
+        setLogsPagoTramaResponse("");
+        setLogsPagoFechaInicial("");
         try {
             setIsLodings(true);
 
@@ -166,6 +170,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
     };
 
     const formatFecha = (fechaIso: string) => {
+        console.log(fechaIso);
         const fecha = new Date(fechaIso);
 
         if (isNaN(fecha.getTime())) return "--";
@@ -241,7 +246,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                         <div className='flex flex-row gap-2.5'>
 
                             {/* items-center justify-center */}
-                            <div className='flex bg-amber-50 w-fit  text-green-500'>
+                            <div className='flex w-fit  text-green-500'>
                                 <span className='text-2xl'>●</span>
                             </div>
 
@@ -269,7 +274,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                             <div className='flex flex-col w-full'>
                                 <div className='flex detalleFlicErp'>
                                     <p className='textBanco'>De Flic al ERP</p>
-                                    <span className='subFechaBanco'> {formatFecha(logsPagoFechaInicial)}</span>
+                                    <span className='subFechaBanco'> {formatFecha(logsPagoFechaInicial ?? record.trpaFear)}</span>
                                 </div>
                                 <span className='subTextoBanco'>Notificada con éxito</span>
                             </div>
@@ -288,7 +293,23 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                         </div>
 
                         {
-                            openData && (
+                            !logsPagoTramaRequest && (
+                                <>
+                                    <div className='errorMensaje'>
+                                        <div className='w-full flex flex-row justify-between'>
+                                            <span className='errorTitulo'>Error:</span>
+                                            <span className='subFechaBanco'>{formatFecha(logsPagoFechaInicial ?? record.trpaFear)}</span>
+                                        </div>
+                                        <div className='textoMensaje'>
+                                            Error de conexión: Tiempo de espera agotado al intentar conectar con el servicio ERP
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        }
+
+                        {
+                            logsPagoTramaRequest && (
                                 <>
                                     <div className='mt-3.5'>
                                         {

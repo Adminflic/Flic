@@ -1,0 +1,4 @@
+.asideFondo {
+  border-right: 1px solid var(--Border-Input, #E5E7EB);
+  background: var(--Muted-Background, #F9F9F9);
+}
