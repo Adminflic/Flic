@@ -187,10 +187,12 @@ const RecaudoPage = () => {
     return (
         <div className=''>
 
-            <div className='infoRecaudos'>
-                <h1 className='tituloRecaudo'>Recaudos</h1>
-                <p className='parrafoRecaudo'>Visualiza y gestiona el registro completo de tus recaudos financieros</p>
+            <div className='infoVisor  flex-shrink-0'>
+                <h1 className='tituloVisor'>Recaudos</h1>
+                <p className='parrafoVisor'>Visualiza y gestiona el registro completo de tus recaudos financieros</p>
             </div>
+
+            
             {/* Loading inicial */}
             {loadingAll && (
                 // <div className='text-center py-5'>

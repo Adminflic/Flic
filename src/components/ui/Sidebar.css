@@ -2,3 +2,20 @@
   border-right: 1px solid var(--Border-Input, #E5E7EB);
   background: var(--Muted-Background, #F9F9F9);
 }
+
+.Notificador {
+  display: flex;
+  /* width: 1.23831rem; */
+  height: 1.125rem;
+  padding: 0.125rem 0.375rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid #D4B4F7;
+  background: #EDE9FE;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+  color: var(--Primary);
+  font-size: 12px;
+}

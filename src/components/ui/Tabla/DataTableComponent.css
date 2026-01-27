@@ -197,3 +197,15 @@
   line-height: 1.25rem;
   /* 142.857% */
 }
+
+.intentosNotificador {
+  padding: 0.09375rem 0.55469rem 0.15625rem 0.5625rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  border-radius: 1048575rem;
+  border: 1px solid rgba(91, 33, 182, 0.20);
+  background: rgba(91, 33, 182, 0.05);
+  color: var(--Primary,#5B21B6); 
+}

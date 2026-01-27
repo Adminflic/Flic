@@ -13,19 +13,63 @@
   --Font-Primary: #313A4E;
   --Font-Secondary: #717182;
   --Terciario: #8B5CF6;
-  --Primary-Opacity20:  rgba(91, 33, 182, 0.20);
+  --Primary-Opacity20: rgba(91, 33, 182, 0.20);
   --Secondary: #ECEEF2;
   --Border: #E1E1E1;
   --Background: #FFFFFF;
   --Color-texto-principal: #313A4E;
   --Color-semantico-verde: #10B981;
   --Color-semantico-naranja: #F59E0B;
-  --Destructive-200:#FEF2F2;
+  --Destructive-200: #FEF2F2;
 
   font-family: "Manrope", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.infoVisor {
+  display: flex;
+  width: 75rem;
+  padding: 1.5rem 2rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tituloVisor {
+  color: var(--Color-texto-principal, #313A4E);
+  font-family: Manrope;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.625rem;
+  /* 150% */
+}
+
+.parrafoVisor {
+  color: var(--Font-Secondary, #717182);
+
+  /* Parrafo */
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.advertenciaVisor {
+  display: flex;
+  height: 1.625rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(245, 158, 11, 0.30);
+  background: rgba(245, 158, 11, 0.10);
+  color: #F59E0B;
+  padding: 6px;
 }
 
 .Button-IconoDerecha {
@@ -81,7 +125,7 @@
   /* 125% */
 }
 
-.H4{
+.H4 {
   color: var(--Font-Primary, #313A4E);
 
   /* H4 */
@@ -89,10 +133,11 @@
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
-  line-height: 1.25rem; /* 142.857% */
+  line-height: 1.25rem;
+  /* 142.857% */
 }
 
-.barra-progreso{
+.barra-progreso {
   background: var(--Primary-Opacity20, rgba(91, 33, 182, 0.20));
 }
 

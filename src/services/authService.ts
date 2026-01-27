@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = "https://localhost:7080/api/auth"; // 🔧 Ajusta el puerto según tu API
-const API_URL = "https://dev.flicservicios.com:9056/api/Auth"; // 🔧 Ajusta el puerto según tu API
+const API_URL = "https://dev.flicservicios.com:9056/api/Authentication"; // 🔧 Ajusta el puerto según tu API
 
 // 🧩 Tipos
 export interface RegisterRequest {

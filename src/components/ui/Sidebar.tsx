@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings } from "lucide-react";
 import LogotipoFlic from '../../assets/icons/LogotipoFlic.svg';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './Sidebar.css' ;
 
 export default function SidebarFlic() {
@@ -50,10 +50,10 @@ export default function SidebarFlic() {
 
           {open && (
             <div className="mt-2 ml-4 flex flex-col gap-1 border-l pl-3">
-              <SubItem active label="Recaudo" icon={<DollarSign />} collapsed={collapsed} onClick={() => navigate("recaudo")} />
-              <SubItem label="Cheque" icon={<FileCheck />} collapsed={collapsed} onClick={() => navigate("cheque")}/>
-              <SubItem label="Reversiones" icon={<RotateCcw />} collapsed={collapsed} onClick={() => navigate("reversion")}/>
-              <SubItem label="No notificadas" icon={<CircleAlert />} collapsed={collapsed} onClick={() => navigate("re-notificacion")}/>
+              <SubItem  label="Recaudo" icon={<DollarSign />} collapsed={collapsed} path="recaudo" onClick={() => navigate("recaudo")} />
+              <SubItem label="Cheque" icon={<FileCheck />} collapsed={collapsed} path="cheque" onClick={() => navigate("cheque")}/>
+              <SubItem label="Reversiones" icon={<RotateCcw />} collapsed={collapsed} path="reversion" onClick={() => navigate("reversion")}/>
+              <SubItem label="No notificadas" icon={<CircleAlert />} notificador={true} path="re-notificacion" collapsed={collapsed} onClick={() => navigate("re-notificacion")}/>
             </div>
           )}
         </div>
@@ -86,21 +86,34 @@ function Item({ icon, label, collapsed = false }: ItemProps) {
 interface SubItemProps {
   label: string;
   icon: React.ReactNode;
+  path?: string; // Recibe la ruta
   active?: boolean;
+  notificador?: boolean;
   collapsed?: boolean;
   onClick?: () => void;
 }
 
-function SubItem({ label, icon, active = false, collapsed = false, onClick }: SubItemProps) {
+
+function SubItem({ label, icon,path, active = false,notificador = false ,collapsed = false, onClick }: SubItemProps) {
+
+  const location = useLocation();
+  
+  // Determinar si está activo: por path o por prop active
+  const isActive = path ? location.pathname.includes(path) : active;
+
   return (
     <div
       onClick={onClick}
-      className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer ${active ? "bg-[#5B21B6] text-white" : "hover:bg-gray-100"
-        }`}
-      aria-current={active}
+      className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer ${isActive ? "bg-[#5B21B6] text-white" : "hover:bg-gray-100"}`}
+      aria-current={isActive}
     >
-      <span className="material-icons text-sm">{icon}</span>
+      <span className="material-icons text-sm ">{icon}</span>
       {!collapsed && <span>{label}</span>}
+      {notificador && !collapsed ? (
+          <div className="absolute z-30 left-49">
+            <span className="Notificador">{localStorage.getItem("totaNotificar") ?? "0"}</span>
+          </div>
+      ) : null}
     </div>
   );
 }

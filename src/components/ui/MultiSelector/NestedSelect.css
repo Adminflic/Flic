@@ -1,0 +1,244 @@
+.nested-select-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+  width: 250px;
+  margin: 20px;
+}
+
+/* Estilo del selector principal (parecido a <select>) */
+.custom-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  background-color: white;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2d3748;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.custom-select:hover {
+  border-color: #a0aec0;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.selected-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.select-arrow {
+  color: #718096;
+  font-size: 10px;
+  margin-left: 8px;
+  transition: transform 0.2s;
+}
+
+.nested-select-container.open .select-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown de opciones */
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.select-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2d3748;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.select-option:last-child {
+  border-bottom: none;
+}
+
+.select-option:hover {
+  background-color: #edf2f7;
+}
+
+.select-option.hovered {
+  background-color: #bee3f8;
+}
+
+.select-option.has-subselect {
+  position: relative;
+}
+
+.select-option.has-subselect:hover::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #4299e1;
+}
+
+.subselect-indicator {
+  color: #a0aec0;
+  font-size: 10px;
+  margin-left: 8px;
+}
+
+.select-option.hovered .subselect-indicator {
+  color: #4299e1;
+}
+
+/* Sub-selector lateral */
+.sub-selector {
+  position: fixed;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 101;
+  animation: slideInRight 0.2s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sub-selector-header {
+  padding: 10px 12px;
+  background-color: #f7fafc;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.sub-options-container {
+  padding: 6px 0;
+}
+
+.sub-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2d3748;
+  transition: background-color 0.2s;
+}
+
+.sub-option:hover {
+  background-color: #edf2f7;
+  color: #2d3748;
+}
+
+.sub-option:active {
+  background-color: #e2e8f0;
+}
+
+/* Estilo para opciones deshabilitadas (como el placeholder) */
+.select-option[data-value=""] {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.sub-option[data-value=""] {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+/* Scrollbar */
+.select-dropdown::-webkit-scrollbar,
+.sub-selector::-webkit-scrollbar {
+  width: 6px;
+}
+
+.select-dropdown::-webkit-scrollbar-track,
+.sub-selector::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.select-dropdown::-webkit-scrollbar-thumb,
+.sub-selector::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.select-dropdown::-webkit-scrollbar-thumb:hover,
+.sub-selector::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Agregar estas reglas al CSS existente */
+
+/* Mejorar la transición del subselector */
+.sub-selector {
+  position: fixed;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 101;
+  animation: slideInRight 0.2s ease;
+  transition: opacity 0.15s ease;
+}
+
+/* Para opciones con subselector cuando están hover */
+.select-option.has-subselect.hovered {
+  background-color: #bee3f8;
+  border-right: 2px solid #4299e1;
+}
+
+/* Indicador más visible para opciones con subselector */
+.subselect-indicator {
+  color: #718096;
+  font-size: 10px;
+  margin-left: 8px;
+  transition: color 0.2s;
+}
+
+.select-option.has-subselect:hover .subselect-indicator {
+  color: #4299e1;
+}
+
+.select-option.has-subselect.hovered .subselect-indicator {
+  color: #2b6cb0;
+  transform: translateX(2px);
+}
