@@ -72,6 +72,7 @@ const ColumnSelectorModal = ({ isVisible, onClose, availableColumns, visibleColu
             // 'estaNoti': 'Notificación Estado'
             'sociNomb': 'Sociedad',
             'trpaIdtr': 'ID de recaudo',
+            'trpaCtte': 'ID Conciliador',
             'trpaPyto': 'No. de autorizacion',
             'trpaValo': 'Valor',
             'trpaNufa': 'No. de factura',
@@ -89,6 +90,7 @@ const ColumnSelectorModal = ({ isVisible, onClose, availableColumns, visibleColu
             'trpaFear': 'Fecha de recaudo',
             'trpaFecr': 'Fecha de creación',
             'pureDesc': 'Canal de recaudo',
+
         }
         return columnLabels[columnKey] || columnKey
     }

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { numeroRecaudosNoNotificados } from '../services/torreNotificacion';
+import { refBancaria } from '../services/RefBancaria';
 
-export const useDataTable = () => {
+export const useDataTableRefPago = () => {
     // Estados
     const [allUsers, setAllUsers] = useState([])
     const [allExport, setAllExport] = useState([])
 
     const [filteredUsers, setFilteredUsers] = useState([])
+
     const [filteredExport, setFilteredExport] = useState([])
 
     const [currentUsers, setCurrentUsers] = useState([])
@@ -17,6 +18,9 @@ export const useDataTable = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [totalRegistros, setTotalRegistros] = useState(0)
     const [loadingAll, setLoadingAll] = useState(false)
+    const [loadingRows, setLoadingRows] = useState({});
+    const [loadingRefBanc, setLoadingRefBanc] = useState(false)
+
 
     // Modales 
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
@@ -27,98 +31,18 @@ export const useDataTable = () => {
 
     const pageSize = 10
 
+    // Data del Selector de Busqueda
     const fieldLabels = {
-        // id: "ID del recaudo",
-        trpaIdtr: "ID del recaudo",
-        trpaCtte: "ID Conciliador",
-        convNuco: "Convenio",
-        sociNomb: "Sociedad",
-        trpaNufa: "Número Factura",
-        trpaDocu: "Ref. principal",
-        trpaPrre: "Ref. 1",
-        trpaSere: "Ref. 2",
-        trpaTere: "Ref. 3",
-        trpaCure: "Ref. 4",
-        trpaEnti: "Entidad",
-        trpaEsta: "Estado",
-
-        // trpaPyto: "Proyecto",
-        // trpaNuau: "Número Autorización",
-        // trpaNuuf: "Número UF",
-        // trpaIdtr: "ID Transacción",
-        // trpaDesc: "Descripción",
-        // trpaCome: "Comentario",
-        // estaNomb: "Nombre Estado",
-        // trpaValo: "Valor",
-        // trpaPure: "Punto Recaudo",
-        // pureDesc: "Descripción Punto",
-        // trpaFeve: "Fecha Vencimiento",
-        // trpaFear: "Fecha Archivo",
-        // trpaFecr: "Fecha Creación",
-        // mepaDesc: "Método Pago",
-        // mepaTipo: "Tipo Método Pago",
-        // trpaBanc: "Banco",
-        // careNomb: "Canal",
-        // estaNoti: "Estado Notificación"
+        rebaDocu: "Documento / Nit",
+        rebaPrre: "Placa",
+        rebaDoge: "Referencia"
     };
 
-
-    // const fields = [
-    //     { key: "id", label: "ID del recaudo" },
-    //     { key: "convNuco", label: "Convenio" },
-    //     { key: "sociNomb", label: "Sociedad" },
-    //     { key: "trpaNufa", label: "Número Factura" },
-    //     { key: "trpaDocu", label: "Ref. principal" },
-    //     { key: "trpaPrre", label: "Ref. 1" },
-    //     { key: "trpaSere", label: "Ref. 2" },
-    //     { key: "trpaTere", label: "Ref. 3" },
-    //     { key: "trpaCure", label: "Ref. 4" },
-    //     { key: "trpaEnti", label: "Entidad" },
-    //     { key: "trpaEsta", label: "Estado" },
-
-    //     { key: "trpaCodi", label: "Código" },
-    //     { key: "trpaPyto", label: "Proyecto" },
-    //     { key: "trpaNuau", label: "Número Autorización" },
-    //     { key: "trpaNuuf", label: "Número UF" },
-    //     { key: "trpaIdtr", label: "ID Transacción" },
-    //     { key: "trpaDesc", label: "Descripción" },
-    //     { key: "trpaCome", label: "Comentario" },
-    //     { key: "estaNomb", label: "Nombre Estado" },
-    //     { key: "trpaValo", label: "Valor" },
-    //     { key: "trpaPure", label: "Punto Recaudo" },
-    //     { key: "pureDesc", label: "Descripción Punto" },
-    //     { key: "trpaFeve", label: "Fecha Vencimiento" },
-    //     { key: "trpaFear", label: "Fecha Archivo" },
-    //     { key: "trpaFecr", label: "Fecha Creación" },
-    //     { key: "mepaDesc", label: "Método Pago" },
-    //     { key: "mepaTipo", label: "Tipo Método Pago" },
-    //     { key: "trpaBanc", label: "Banco" },
-    //     { key: "careNomb", label: "Canal" },
-    //     { key: "estaNoti", label: "Estado Notificación" }
-    // ];
-
-
-    // Función para construir la URL con parámetros opcionales
-
     const EXPORT_FIELDS = [
-        { key: "sociNomb", label: "Sociedad" },
-        { key: "trpaIdtr", label: "ID de recaudo" },
-        { key: "trpaCtte", label: "ID Conciliador" },
-        { key: "trpaPyto", label: "No. de autorizacion" },
-        { key: "trpaValo", label: "Valor", format: "currency" },
-        { key: "trpaNufa", label: "Número Factura" },
-        { key: "trpaDocu", label: "Ref. principal" },
-        { key: "trpaPrre", label: "Ref. 1" },
-        { key: "trpaSere", label: "Ref. 2" },
-        { key: "trpaTere", label: "Ref. 3" },
-        { key: "trpaCure", label: "Ref. 4" },
-        { key: "careNomb", label: "Tipo de recaudo" },
-        { key: "mepaDesc", label: "Medio de Pago" },
-        { key: "trpaEnti", label: "Entidad" },
-        { key: "convNuco", label: "Convenio" },
-        { key: "trpaFear", label: "Fecha de recaudo", format: "date" },
-        { key: "trpaFecr", label: "Fecha de creación", format: "date" },
-        { key: "estaNomb", label: "Estado" },
+        { key: "rebaDocu", label: "Documento / Nit" },
+        { key: "rebaPrre", label: "Placa" },
+        { key: "rebaDoge", label: "Referencia" },
+        { key: "rebaFecr", label: "Fecha Registro" },
     ];
 
     const formatValue = (value, type) => {
@@ -152,7 +76,7 @@ export const useDataTable = () => {
     const buildURL = (page) => {
         const comercioKey = localStorage.getItem('Comercio');
 
-        const url = import.meta.env.VITE_API_BASE_URL_TRANSACCIONAL;
+        const url = import.meta.env.VITE_API_BASE_URL_REFBANCARIA;
         let URL = `${url}/${comercioKey}?pageNumber=${page}&pageSize=100`
 
         // Agregar parámetros de fecha solo si tienen valor
@@ -191,10 +115,6 @@ export const useDataTable = () => {
 
                 const response = await fetch(URL)
                 const data = await response.json()
-
-                //Cantidad No notificadas
-                const come = localStorage.getItem('Comercio');
-                await numeroRecaudosNoNotificados(Number.parseInt(come!));
 
                 // console.log(`Cargando página ${page}:`, data.data?.length, 'registros')
 
@@ -240,22 +160,12 @@ export const useDataTable = () => {
                 }
             }
 
-            // setAllUsers(allData)
-            // setAllExport(allExportData)
-            // setFilteredUsers(allData)
-            // setFilteredExport(allExportData)
-            // setTotalRegistros(allData.length)
-            // setTotalPages(Math.ceil(allData.length / pageSize))
-            // updateCurrentUsers(allData, 1)
 
             setAllUsers(allData);
             setFilteredUsers(allData);
             setCurrentPage(1);
             setTotalPages(Math.ceil(allData.length / pageSize));
             updateCurrentUsers(allData, 1);
-
-
-            // console.log('Todos los datos cargados:', allData.length, 'registros')
 
         } catch (error) {
             console.error("Error loading all data:", error)
@@ -271,37 +181,6 @@ export const useDataTable = () => {
         setCurrentUsers(users.slice(startIndex, endIndex))
     }
 
-    // Filtrar datos - CORREGIDO
-    // const filterData = (searchTerm, field) => {
-    //     if (!searchTerm.trim()) {
-    //         // Si no hay término de búsqueda, mostrar todos los datos
-    //         setFilteredUsers(allUsers)
-    //         setTotalPages(Math.ceil(allUsers.length / pageSize))
-    //         setCurrentPage(1)
-    //         updateCurrentUsers(allUsers, 1)
-    //         return
-    //     }
-
-    //     const filtered = allUsers.filter((user) => {
-    //         if (field === 'todas') {
-    //             // Buscar en todas las columnas
-    //             return Object.values(user).some(value => {
-    //                 if (value === null || value === undefined) return false
-    //                 return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    //             })
-    //         } else {
-    //             // Buscar en columna específica
-    //             const value = user[field]
-    //             if (value === null || value === undefined) return false
-    //             return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    //         }
-    //     })
-
-    //     setFilteredUsers(filtered)
-    //     setTotalPages(Math.ceil(filtered.length / pageSize))
-    //     setCurrentPage(1)
-    //     updateCurrentUsers(filtered, 1)
-    // }
     const resetTableState = () => {
         setSearch("");
         setSelectedField("todas");
@@ -353,22 +232,6 @@ export const useDataTable = () => {
         }
     }
 
-    // Limpiar filtros de fecha
-    // const limpiarFiltrosFecha = () => {
-    //     const hoy = new Date();
-    //     const yyyy = hoy.getFullYear();
-    //     const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-    //     const dd = String(hoy.getDate()).padStart(2, "0");
-
-    //     setFechaInicial(`${yyyy}-${mm}-${dd}`);
-    //     setSelectedField('todas')
-    //     // setFechaInicial("")
-    //     setFechaFinal("")
-    //     setSearch("")
-    //     // setTotalRegistros(0);
-    //     // Recargar datos sin filtros
-    //     loadAllData()
-    // }
     const limpiarFiltrosFecha = async () => {
         const hoy = new Date();
         const yyyy = hoy.getFullYear();
@@ -383,6 +246,20 @@ export const useDataTable = () => {
 
         await loadAllData();
     };
+
+    const handleRefBancClick = async () => {
+        // Usar el ID único del registro como clave
+        try {
+            setLoadingRefBanc(true);
+            const refbanc = await refBancaria();
+        } catch (error) {
+            console.log("ERROR:",error);
+        } finally {
+            await loadAllData();
+            setLoadingRefBanc(false);
+        }
+
+    }
 
     // Efecto para cargar datos automáticamente solo cuando cambia fechaFinal
     useEffect(() => {
@@ -432,11 +309,15 @@ export const useDataTable = () => {
         setFechaFinal,
         isDetailsModalVisible,
         setIsDetailsModalVisible,
+        loadingRows,
+        setLoadingRows,
+        loadingRefBanc,
 
         // Funciones
         loadPage,
         filterData,
         limpiarFiltrosFecha,
-        loadAllData
+        loadAllData,
+        handleRefBancClick
     }
 }

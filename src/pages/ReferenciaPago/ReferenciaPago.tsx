@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react'
-import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
-import PaginationComponent from '../../components/ui/Tabla/PaginationComponent';
-import { FiltersComponent } from '../../components/ui/Tabla/FiltersComponent';
+import { useEffect } from "react"
+import { useDataTableRefPago } from "../../hooks/useDataTableRefPago"
+import { exportToCSV, exportToExcel } from "../../utils/exportUtils"
+import { Info } from "lucide-react"
+import Lottie from "lottie-react"
+import { FiltersComponent } from "../../components/ui/Tabla/FiltersComponent"
+import PaginationComponent from "../../components/ui/Tabla/PaginationComponent"
 import Loading from '../../../src/assets/animations/loading.json'
+import DataTableRefBancaria from "../../components/ui/Tabla/DataTableRefBancaria"
 
-import Lottie from 'lottie-react';
-import { useDataTableNotificador } from '../../hooks/useDataTableNotificador';
-import DataTableNotificador from '../../components/ui/Tabla/DataTableNotificador';
-import { Info } from 'lucide-react';
-
-export const NoNotificadaPage = () => {
-
+export const ReferenciaPago = () => {
 
   const {
     allUsers,
@@ -36,8 +34,10 @@ export const NoNotificadaPage = () => {
     setIsDetailsModalVisible,
     loadAllData,
     loadingRows,
-    setLoadingRows
-  } = useDataTableNotificador()
+    setLoadingRows,
+    loadingRefBanc,
+    handleRefBancClick
+  } = useDataTableRefPago()
 
   // Handlers de exportación
   const handleExportCSV = () => {
@@ -65,10 +65,8 @@ export const NoNotificadaPage = () => {
 
 
   useEffect(() => {
-    localStorage.setItem("totaNotificar", JSON.stringify(filteredUsers.length));
+    // localStorage.setItem("totaNotificar", JSON.stringify(filteredUsers.length));
   }, [filteredUsers]);
-
-
 
 
   return (
@@ -76,13 +74,13 @@ export const NoNotificadaPage = () => {
       {/* Visor estático - sin scroll */}
       <div className='infoVisor flex-shrink-0'>
         <div className='flex flex-row gap-1.5 justify-center items-center'>
-          <h1 className='tituloVisor'>No Notificadas</h1>
-          <div className='advertenciaVisor'>
+          <h1 className='tituloVisor'>Referencia de Pago</h1>
+          {/* <div className='advertenciaVisor'>
             <Info size={16} color='#F59E0B' />
             <p>{`${filteredUsers.length} recaudos no notificados`}</p>
-          </div>
+          </div> */}
         </div>
-        <p className='parrafoVisor'>Gestiona los recaudos pendientes de notificación al sistema</p>
+        <p className='parrafoVisor'>Consulta las referencias de pago asociadas a cada placa</p>
       </div>
 
       {/* Loading inicial */}
@@ -113,10 +111,13 @@ export const NoNotificadaPage = () => {
               onExportExcel={handleExportExcel}
               allUsers={allUsers}
               setIsDetailsModalVisible={setIsDetailsModalVisible}
+              isConfigColumna={false}
+              loadingRefBanc={loadingRefBanc}
+              handleRefBancClick={handleRefBancClick}
             />
 
             {/* Tabla */}
-            <DataTableNotificador
+            <DataTableRefBancaria
               currentUsers={currentUsers}
               search={search}
               fechaInicial={fechaInicial}
@@ -145,4 +146,4 @@ export const NoNotificadaPage = () => {
       )}
     </div>
   );
-};
+}

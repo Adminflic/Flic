@@ -19,25 +19,18 @@ const DataTableComponent = ({
     const [isColumnModalVisible, setIsColumnModalVisible] = useState(false)
 
     const [visibleColumns, setVisibleColumns] = useState([
-        'sociNomb', 'trpaIdtr', 'trpaPyto', 'trpaValo', 'trpaNufa',
+        'sociNomb', 'trpaIdtr','trpaCtte', 'trpaPyto', 'trpaValo', 'trpaNufa',
         'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
         'careNomb', 'mepaDesc', 'trpaEnti', 'convNuco', 'trpaFear',
-        'trpaFecr', 'pureDesc'
+        'trpaFecr', 'pureDesc',
     ])
 
     // Todas las columnas disponibles
     const allColumns = [
-        // 'id', 'trpaCodi', 'trpaDocu', 'trpaNufa', 'trpaPyto',
-        // 'trpaNuau', 'trpaNuuf', 'trpaIdtr', 'trpaDesc', 'trpaCome',
-        // 'trpaEsta', 'estaNomb', 'trpaValo', 'trpaPrre', 'trpaSere',
-        // 'trpaTere', 'trpaCure', 'trpaPure', 'pureDesc', 'trpaEnti',
-        // 'convNuco', 'trpaFeve', 'trpaFear', 'trpaFecr', 'mepaDesc',
-        // 'mepaTipo', 'sociNomb', 'trpaBanc', 'careNomb', 'estaNoti'
-
-        'sociNomb', 'trpaIdtr', 'trpaPyto', 'trpaValo', 'trpaNufa',
+        'sociNomb', 'trpaIdtr', 'trpaCtte','trpaPyto', 'trpaValo', 'trpaNufa',
         'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
         'careNomb', 'mepaDesc', 'trpaEnti', 'convNuco', 'trpaFear',
-        'trpaFecr', 'pureDesc'
+        'trpaFecr', 'pureDesc',
     ]
 
     const handleLogClick = (record) => {
@@ -58,6 +51,7 @@ const DataTableComponent = ({
         const columnLabels = {
             'sociNomb': 'Sociedad',
             'trpaIdtr': 'ID de recaudo',
+            'trpaCtte': 'ID conciliador',
             'trpaPyto': 'No. de autorizacion',
             'trpaValo': 'Valor',
             'trpaNufa': 'No. de factura',

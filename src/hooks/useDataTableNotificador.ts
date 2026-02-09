@@ -17,6 +17,7 @@ export const useDataTableNotificador = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [totalRegistros, setTotalRegistros] = useState(0)
     const [loadingAll, setLoadingAll] = useState(false)
+    const [loadingRows, setLoadingRows] = useState({});
 
     // Modales 
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
@@ -301,6 +302,8 @@ export const useDataTableNotificador = () => {
         setFechaFinal,
         isDetailsModalVisible,
         setIsDetailsModalVisible,
+        loadingRows, 
+        setLoadingRows,
 
         // Funciones
         loadPage,

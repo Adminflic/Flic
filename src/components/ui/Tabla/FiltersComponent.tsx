@@ -1,9 +1,10 @@
-import { Calendar, CalendarCheck2, ChevronDown, ChevronUp, Columns3Cog, Download, FileDown, Funnel, Search, X } from 'lucide-react'
+import { Calendar, CalendarCheck2, ChevronDown, ChevronUp, Columns3Cog, Download, FileDown, Funnel, RefreshCcwDot, Search, X } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast, Toaster } from 'sonner';
 
 import './Filter.css';
 import { createPortal } from 'react-dom';
+import { CirculeDotLoader } from '../Loaders/ComponentLoader';
 
 export const FiltersComponent = ({
     fechaInicial,
@@ -20,7 +21,10 @@ export const FiltersComponent = ({
     onExportCSV,
     onExportExcel,
     allUsers,
-    setIsDetailsModalVisible
+    setIsDetailsModalVisible,
+    isConfigColumna = true,
+    loadingRefBanc,
+    handleRefBancClick
 }) => {
 
     const [onfilter, setOnfilter] = useState(false);
@@ -131,15 +135,31 @@ export const FiltersComponent = ({
                         </div>
 
                         <div className='flex gap-1.5'>
-                            <button
-                                className='buttonLine'
-                                onClick={() => setIsDetailsModalVisible(true)}
-                                title="Configurar columnas visibles"
-                            >
-                                <Columns3Cog size={18} />
-                                Configurar columnas
-                            </button>
+                            {
+                                isConfigColumna ? (
+                                    <button
+                                        className='buttonLine'
+                                        onClick={() => setIsDetailsModalVisible(true)}
+                                        title="Configurar columnas visibles"
+                                    >
+                                        <Columns3Cog size={18} />
+                                        Configurar columnas
+                                    </button>
+                                ) : (
+                                    <button
+                                        className='buttonLine'
+                                        onClick={() => { handleRefBancClick() }}
+                                        title="Actualizar placas"
+                                        disabled={loadingRefBanc}
+                                    >
 
+                                        {
+                                            loadingRefBanc ? <CirculeDotLoader /> : <RefreshCcwDot size={18} />
+                                        }
+                                        Actualizar placas
+                                    </button>
+                                )
+                            }
 
                             <button className='buttonLine' onClick={() => { setOnExport(!onExport) }}>
                                 <FileDown size={18} />

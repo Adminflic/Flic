@@ -8,7 +8,7 @@ import { toast, Toaster } from 'sonner';
 import { notificarRecaudo } from '../../../services/torreNotificacion'
 import { CirculeDotLoader } from '../Loaders/ComponentLoader'
 
-const DataTableNotificador = ({
+const DataTableRefBancaria = ({
     currentUsers,
     search,
     fechaInicial,
@@ -27,14 +27,12 @@ const DataTableNotificador = ({
 
     // Todas las columnas disponibles  de Columnas tabla
     const [visibleColumns, setVisibleColumns] = useState([
-        'trpaDocu', 'trpaPyto', 'trpaNufa', 'trpaIdtr', 'trpaValo',
-        'trpaPrre', 'trpaSere', 'trpaEnti', 'trpaFear'
+        'rebaDocu','rebaPrre','rebaDoge','rebaFecr'
     ])
 
     // Todas las columnas disponibles Configurador de Columnas
     const allColumns = [
-        'trpaDocu', 'trpaPyto', 'trpaNufa', 'trpaIdtr', 'trpaValo',
-        'trpaPrre', 'trpaSere', 'trpaEnti', 'trpaFear'
+        'rebaDocu','rebaPrre','rebaDoge','rebaFecr'
     ]
 
     //  const checkEmailInSystem = async (emailToCheck: string): Promise<boolean> => {
@@ -46,14 +44,14 @@ const DataTableNotificador = ({
             console.log(record);
             // console.log("|", JSON.stringify(loadingRows), "|"); //| {"2010586":true} |
             // Tu lógica async aquí
-            const notificador = await notificarRecaudo(record.trnoCome, record.trpaCodi);
-            if (notificador.ok) {
-                toast.success('Recaudo reenviado exitosamente');
-                // await loadAllData();
-            } else {
-                toast.error('Reenvio fallido');
-                // await loadAllData();
-            }
+            // const notificador = await notificarRecaudo(record.trnoCome, record.trpaCodi);
+            // if (notificador.ok) {
+            //     toast.success('Recaudo reenviado exitosamente');
+            //     // await loadAllData();
+            // } else {
+            //     toast.error('Reenvio fallido');
+            //     // await loadAllData();
+            // }
 
             // Simulación de delay
             // await new Promise(resolve => setTimeout(resolve, 1000));
@@ -78,15 +76,10 @@ const DataTableNotificador = ({
 
     const getColumnLabel = (columnKey) => {
         const columnLabels = {
-            'trpaDocu': 'Ref. principal',
-            'trpaPyto': 'Numero Autorizacion',
-            'trpaNufa': 'No. de factura',
-            'trpaIdtr': 'ID de recaudo',
-            'trpaValo': 'Valor',
-            'trpaPrre': 'Ref. 1',
-            'trpaSere': 'Ref. 2',
-            'trpaEnti': 'Entidad',
-            'trpaFear': 'Fecha de recaudo'
+             'rebaDocu': 'Documento / Nit',
+             'rebaPrre': 'Placa',
+             'rebaDoge': 'Referencia',
+             'rebaFecr': 'Fecha Registro'
         }
         return columnLabels[columnKey] || columnKey
     }
@@ -148,8 +141,8 @@ const DataTableNotificador = ({
                                         </th>
                                     ))}
                                     {/* Columnas fijas */}
-                                    <th className='fixed-header-estado'>Intentos</th>
-                                    <th className='fixed-header-logs'>Notificar</th>
+                                    {/* <th className='fixed-header-estado'>Intentos</th>
+                                    <th className='fixed-header-logs'>Notificar</th> */}
                                 </tr>
                             </thead>
 
@@ -163,17 +156,16 @@ const DataTableNotificador = ({
                                             </td>
                                         ))}
                                         {/* Columnas fijas */}
-                                        <td className='fixed-column-estado'>
+                                        {/* <td className='fixed-column-estado'>
                                             <button
                                                 title={`${user.trnoInte} intento fallido`}
                                                 className="intentosNotificador">
                                                 <div className='flex flex-row gap-1.5 items-center justify-center'>
-                                                    {/* <Info size={18} /> */}
                                                     {user.trnoInte}
                                                 </div>
                                             </button>
-                                        </td>
-                                        <td className='fixed-column-logs'>
+                                        </td> */}
+                                        {/* <td className='fixed-column-logs'>
                                             <button
                                                 className="cursor-pointer"
                                                 title="Reenviar al ERP"
@@ -185,7 +177,7 @@ const DataTableNotificador = ({
                                                 }
                                             </button>
 
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                             </tbody>
@@ -216,14 +208,14 @@ const DataTableNotificador = ({
             </div>
 
             {/* Modal de detalles */}
-            <RecordDetailsModal
+            {/* <RecordDetailsModal
                 record={selectedRecord}
                 isVisible={isDetailsModalVisible}
                 onClose={closeDetailsModal}
-            />
+            /> */}
 
             {/* Modal de configuración de columnas */}
-            <ColumnSelectorModal
+            {/* <ColumnSelectorModal
                 // isVisible={isColumnModalVisible}
                 isVisible={modalVisible}
                 // onClose={() => setIsColumnModalVisible(false)} 
@@ -231,9 +223,9 @@ const DataTableNotificador = ({
                 availableColumns={allColumns}
                 visibleColumns={visibleColumns}
                 onColumnsChange={handleColumnsChange}
-            />
+            /> */}
         </>
     )
 }
 
-export default DataTableNotificador
+export default DataTableRefBancaria

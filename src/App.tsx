@@ -10,6 +10,7 @@ import { ChequePage } from "./pages/Cheques/ChequePage";
 import { ReversionPage } from "./pages/Reversion/ReversionPage";
 import { NoNotificadaPage } from "./pages/NoNotificadas/NoNotificadaPage";
 import RecaudoPage from "./pages/Recaudos/RecaudoPage";
+import { ReferenciaPago } from "./pages/ReferenciaPago/ReferenciaPago";
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="cheque" element={<ChequePage />} />
           <Route path="reversion" element={<ReversionPage />} />
           <Route path="re-notificacion" element={<NoNotificadaPage />} />
+          <Route path="referenciaPago" element={<ReferenciaPago />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

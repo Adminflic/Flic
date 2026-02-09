@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings, Receipt } from "lucide-react";
 import LogotipoFlic from '../../assets/icons/LogotipoFlic.svg';
 import { useLocation, useNavigate } from "react-router-dom";
 import './Sidebar.css' ;
@@ -54,6 +54,10 @@ export default function SidebarFlic() {
               <SubItem label="Cheque" icon={<FileCheck />} collapsed={collapsed} path="cheque" onClick={() => navigate("cheque")}/>
               <SubItem label="Reversiones" icon={<RotateCcw />} collapsed={collapsed} path="reversion" onClick={() => navigate("reversion")}/>
               <SubItem label="No notificadas" icon={<CircleAlert />} notificador={true} path="re-notificacion" collapsed={collapsed} onClick={() => navigate("re-notificacion")}/>
+              {
+                localStorage.getItem("Comercio") == "201" && <SubItem label="Referencia de Pago" icon={<Receipt />} path="referenciaPago" collapsed={collapsed} onClick={() => navigate("referenciaPago")}/>
+              }
+
             </div>
           )}
         </div>
