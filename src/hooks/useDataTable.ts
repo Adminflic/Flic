@@ -8,6 +8,9 @@ export const useDataTable = () => {
 
     const [filteredUsers, setFilteredUsers] = useState([])
     const [filteredExport, setFilteredExport] = useState([])
+    const [onfilter, setOnfilter] = useState(false);
+
+
 
     const [currentUsers, setCurrentUsers] = useState([])
     const [search, setSearch] = useState("")
@@ -16,6 +19,8 @@ export const useDataTable = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [totalRegistros, setTotalRegistros] = useState(0)
+    const [totalNoNotificadas, setTotalNoNotificadas] = useState(0)
+
     const [loadingAll, setLoadingAll] = useState(false)
 
     // Modales 
@@ -39,8 +44,8 @@ export const useDataTable = () => {
         trpaSere: "Ref. 2",
         trpaTere: "Ref. 3",
         trpaCure: "Ref. 4",
-        trpaEnti: "Entidad",
-        trpaEsta: "Estado",
+        trpaPrno: "Entidad",
+        estaNomb: "Estado",
 
         // trpaPyto: "Proyecto",
         // trpaNuau: "Número Autorización",
@@ -194,8 +199,8 @@ export const useDataTable = () => {
 
                 //Cantidad No notificadas
                 const come = localStorage.getItem('Comercio');
-                await numeroRecaudosNoNotificados(Number.parseInt(come!));
-
+                const countNoNotificada = await numeroRecaudosNoNotificados(Number.parseInt(come!));
+                setTotalNoNotificadas(countNoNotificada.totalRegistrosFecha);
                 // console.log(`Cargando página ${page}:`, data.data?.length, 'registros')
 
                 if (data.data && data.data.length > 0) {
@@ -432,6 +437,8 @@ export const useDataTable = () => {
         setFechaFinal,
         isDetailsModalVisible,
         setIsDetailsModalVisible,
+        onfilter,
+        setOnfilter,
 
         // Funciones
         loadPage,

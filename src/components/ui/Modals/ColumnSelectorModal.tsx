@@ -83,13 +83,23 @@ const ColumnSelectorModal = ({ isVisible, onClose, availableColumns, visibleColu
             'trpaCure': 'Ref. 4',
             'careNomb': 'Tipo de recaudo',
             'mepaDesc': 'Medio de pago',
-            'trpaEnti': 'Entidad',
+            'trpaPrno': 'Entidad',
             'convNuco': 'Convenio',
             // Cuenta destino
             // Ubicación
             'trpaFear': 'Fecha de recaudo',
             'trpaFecr': 'Fecha de creación',
             'pureDesc': 'Canal de recaudo',
+
+
+            'trpaCheq': 'Valor',
+            'trreFere': 'Fecha reversion',
+            'bancEnti': 'Entidad',
+            'trchCodi': 'ID Cheque',
+            'trreCodi': 'ID Reversion',
+            'coreConc': 'Concepto de Recaudo',
+            'tireDesc': 'Tipo de Recaudo',
+            'fopaDesc': 'Forma de Pago',
 
         }
         return columnLabels[columnKey] || columnKey

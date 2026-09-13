@@ -19,6 +19,18 @@
   background: var(--Background, #FFF);
 }
 
+.buttonLineRefBancaria {
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 0.4375rem;
+
+  border-radius: 0.5rem;
+  /* border: 1px solid var(--Border, #E1E1E1); */
+  background: var(--Primary, #5B21B6);
+  color: #FFF;
+}
+
 .exportHover:hover {
   cursor: pointer;
   border-radius: 0.5rem;

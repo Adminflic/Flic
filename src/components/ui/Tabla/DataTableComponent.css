@@ -15,7 +15,7 @@
 /* Headers fijos - CORREGIDOS */
 .fixed-header-estado {
   position: sticky;
-  right: 60px;
+  right: 80px;
   background-color: #e9ecef !important;
   z-index: 30;
   border-left: 2px solid #dee2e6;
@@ -46,11 +46,14 @@
 /* Celdas fijas - CORREGIDAS */
 .fixed-column-estado {
   position: sticky;
-  right: 60px;
+  /* right: 60px; */
+  right: 80px;
+
   background-color: #ffffff !important;
   z-index: 20;
   /* border-left: 2px solid #dee2e6; */
   min-width: 120px;
+  /* min-width: 200px; */
   white-space: nowrap;
 }
 
@@ -140,6 +143,8 @@
   transform: scale(1.1);
 }
 
+
+
 .logs-button:active {
   transform: scale(0.95);
 }
@@ -208,4 +213,24 @@
   border: 1px solid rgba(91, 33, 182, 0.20);
   background: rgba(91, 33, 182, 0.05);
   color: var(--Primary,#5B21B6); 
+}
+
+/* Tooltip con fondo rojo personalizado */
+.tippy-box[data-theme~='flic'] {
+  background-color: var(--Primary,#5B21B6);  /* Color de fondo total */
+  color: white;
+  border-radius: 10px;
+ font-family: "Manrope", sans-serif;
+}
+
+/* La flecha también hereda el color */
+.tippy-box[data-theme~='flic'] > .tippy-arrow {
+  color: var(--Primary,#5B21B6);
+  /* font-family: "Manrope", sans-serif; */
+}
+
+/* HOVER - si quieres que cambie al pasar el mouse */
+.tippy-box[data-theme~='flic']:hover {
+  background-color: var(--Primary,#5B21B6);
+  /* font-family: "Manrope", sans-serif; */
 }

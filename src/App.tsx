@@ -10,7 +10,8 @@ import { ChequePage } from "./pages/Cheques/ChequePage";
 import { ReversionPage } from "./pages/Reversion/ReversionPage";
 import { NoNotificadaPage } from "./pages/NoNotificadas/NoNotificadaPage";
 import RecaudoPage from "./pages/Recaudos/RecaudoPage";
-import { ReferenciaPago } from "./pages/ReferenciaPago/ReferenciaPago";
+import { PagoReference } from "./pages/PagoReference/PagoReference";
+import { Dashboard } from "./pages/DashBoard/Dashboard";
 
 function App() {
 
@@ -20,12 +21,14 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<AppLayout />}>
           {/* Cuando entre a /dashboard, redirigir a /dashboard/recaudo */}
+          {/* <Route index element={<Navigate to="main" replace />} /> */}
           <Route index element={<Navigate to="recaudo" replace />} />
+          <Route path="main" element={<Dashboard />} />
           <Route path="recaudo" element={<RecaudoPage />} />
           <Route path="cheque" element={<ChequePage />} />
           <Route path="reversion" element={<ReversionPage />} />
           <Route path="re-notificacion" element={<NoNotificadaPage />} />
-          <Route path="referenciaPago" element={<ReferenciaPago />} />
+          <Route path="referenciaPago" element={<PagoReference />} />
 
         </Route>
       </Routes>

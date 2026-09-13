@@ -7,7 +7,7 @@ export const useDataTableRefPago = () => {
     const [allExport, setAllExport] = useState([])
 
     const [filteredUsers, setFilteredUsers] = useState([])
-
+    const [onfilter, setOnfilter] = useState(false);
     const [filteredExport, setFilteredExport] = useState([])
 
     const [currentUsers, setCurrentUsers] = useState([])
@@ -253,7 +253,7 @@ export const useDataTableRefPago = () => {
             setLoadingRefBanc(true);
             const refbanc = await refBancaria();
         } catch (error) {
-            console.log("ERROR:",error);
+            console.log("ERROR:", error);
         } finally {
             await loadAllData();
             setLoadingRefBanc(false);
@@ -312,6 +312,8 @@ export const useDataTableRefPago = () => {
         loadingRows,
         setLoadingRows,
         loadingRefBanc,
+        onfilter,
+        setOnfilter,
 
         // Funciones
         loadPage,

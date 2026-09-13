@@ -7,6 +7,8 @@ import { Info, Send } from 'lucide-react'
 import { toast, Toaster } from 'sonner';
 import { notificarRecaudo } from '../../../services/torreNotificacion'
 import { CirculeDotLoader } from '../Loaders/ComponentLoader'
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
 
 const DataTableNotificador = ({
     currentUsers,
@@ -38,33 +40,62 @@ const DataTableNotificador = ({
     ]
 
     //  const checkEmailInSystem = async (emailToCheck: string): Promise<boolean> => {
+    // const handleLogClick = async (record) => {
+    //     // Usar el ID único del registro como clave
+    //     const rowId = record.trnoCodi || record.trpaIdtr; // Ajusta según tu estructura
+    //     setLoadingRows(prev => ({ ...prev, [rowId]: true }));
+    //     try {
+    //         console.log(record);
+    //         // console.log("|", JSON.stringify(loadingRows), "|"); //| {"2010586":true} |
+    //         // Tu lógica async aquí
+    //         const notificador = await notificarRecaudo(record.trnoCome, record.trpaCodi);
+    //         if (notificador.ok) {
+    //             toast.success('Recaudo reenviado exitosamente');
+    //             // await loadAllData();
+    //         } else {
+    //             toast.error('Reenvio fallido');
+    //             // await loadAllData();
+    //         }
+
+    //         // Simulación de delay
+    //         // await new Promise(resolve => setTimeout(resolve, 1000));
+
+    //     } catch (error) {
+    //         toast.error('Reenvio fallido');
+    //     } finally {
+    //         setLoadingRows(prev => ({ ...prev, [rowId]: false }));
+    //         await loadAllData();
+    //     }
+
+    // }
+
     const handleLogClick = async (record) => {
-        // Usar el ID único del registro como clave
-        const rowId = record.trnoCodi || record.trpaIdtr; // Ajusta según tu estructura
+        const rowId = record.trnoCodi || record.trpaIdtr;
         setLoadingRows(prev => ({ ...prev, [rowId]: true }));
+
         try {
             console.log(record);
-            // console.log("|", JSON.stringify(loadingRows), "|"); //| {"2010586":true} |
-            // Tu lógica async aquí
             const notificador = await notificarRecaudo(record.trnoCome, record.trpaCodi);
+
             if (notificador.ok) {
                 toast.success('Recaudo reenviado exitosamente');
-                // await loadAllData();
             } else {
                 toast.error('Reenvio fallido');
-                // await loadAllData();
             }
 
-            // Simulación de delay
-            // await new Promise(resolve => setTimeout(resolve, 1000));
+            // Esperar a que ambas operaciones terminen
+            // await Promise.all([
+            //     // loadAllData(),
+            //     // Pequeño delay para asegurar que el estado se actualice
+            //     new Promise(resolve => setTimeout(resolve, 100))
+            // ]);
 
         } catch (error) {
-            toast.error('Reenvio fallido');
+            toast.error('Procesando Transaccion');
         } finally {
             setLoadingRows(prev => ({ ...prev, [rowId]: false }));
-            await loadAllData();
+            loadAllData();
         }
-
     }
 
     const closeDetailsModal = () => {
@@ -164,26 +195,33 @@ const DataTableNotificador = ({
                                         ))}
                                         {/* Columnas fijas */}
                                         <td className='fixed-column-estado'>
-                                            <button
-                                                title={`${user.trnoInte} intento fallido`}
-                                                className="intentosNotificador">
-                                                <div className='flex flex-row gap-1.5 items-center justify-center'>
-                                                    {/* <Info size={18} /> */}
-                                                    {user.trnoInte}
-                                                </div>
-                                            </button>
+
+                                            <Tippy content={`${user.trnoInte} intento fallido`} theme="flic" placement="left">
+                                                <button
+                                                    // title={`${user.trnoInte} intento fallido`}
+                                                    className="intentosNotificador">
+                                                    <div className='flex flex-row gap-1.5 items-center justify-center'>
+                                                        <Info size={18} />
+                                                        {user.trnoInte}
+                                                    </div>
+                                                </button>
+                                            </Tippy>
+
                                         </td>
                                         <td className='fixed-column-logs'>
-                                            <button
-                                                className="cursor-pointer"
-                                                title="Reenviar al ERP"
-                                                onClick={() => handleLogClick(user)}
-                                                disabled={loadingRows[user.trnoCodi] || false}
-                                            >
-                                                {
-                                                    loadingRows[user.trnoCodi] ? <CirculeDotLoader /> : <Send size={18} />
-                                                }
-                                            </button>
+                                            <Tippy content={`Reenviar al ERP`} theme="flic" placement="left">
+                                                <button
+                                                    className="cursor-pointer"
+                                                    // title="Reenviar al ERP"
+                                                    onClick={() => handleLogClick(user)}
+                                                    disabled={loadingRows[user.trnoCodi] || false}
+                                                >
+                                                    {
+                                                        loadingRows[user.trnoCodi] ? <CirculeDotLoader /> : <Send size={18} />
+                                                    }
+                                                </button>
+                                            </Tippy>
+
 
                                         </td>
                                     </tr>

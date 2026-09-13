@@ -5,10 +5,10 @@ import { Info } from "lucide-react"
 import Lottie from "lottie-react"
 import { FiltersComponent } from "../../components/ui/Tabla/FiltersComponent"
 import PaginationComponent from "../../components/ui/Tabla/PaginationComponent"
-import Loading from '../../../src/assets/animations/loading.json'
+import Loading from '../../assets/animations/loading.json'
 import DataTableRefBancaria from "../../components/ui/Tabla/DataTableRefBancaria"
 
-export const ReferenciaPago = () => {
+export const PagoReference = () => {
 
   const {
     allUsers,
@@ -36,7 +36,9 @@ export const ReferenciaPago = () => {
     loadingRows,
     setLoadingRows,
     loadingRefBanc,
-    handleRefBancClick
+    handleRefBancClick,
+    onfilter,
+    setOnfilter,
   } = useDataTableRefPago()
 
   // Handlers de exportación
@@ -114,6 +116,8 @@ export const ReferenciaPago = () => {
               isConfigColumna={false}
               loadingRefBanc={loadingRefBanc}
               handleRefBancClick={handleRefBancClick}
+              onfilter={onfilter}
+              setOnfilter={setOnfilter}
             />
 
             {/* Tabla */}

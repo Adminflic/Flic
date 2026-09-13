@@ -24,10 +24,12 @@ export const FiltersComponent = ({
     setIsDetailsModalVisible,
     isConfigColumna = true,
     loadingRefBanc,
-    handleRefBancClick
+    handleRefBancClick,
+    onfilter,
+    setOnfilter
 }) => {
 
-    const [onfilter, setOnfilter] = useState(false);
+    // const [onfilter, setOnfilter] = useState(false);
     const [onExport, setOnExport] = useState(false);
     const [fechaHoy, setFechaHoy] = useState(false);
 
@@ -138,7 +140,7 @@ export const FiltersComponent = ({
                             {
                                 isConfigColumna ? (
                                     <button
-                                        className='buttonLine'
+                                        className='buttonLine hover:bg-[#5B21B6]/90! hover:text-[#FFF]'
                                         onClick={() => setIsDetailsModalVisible(true)}
                                         title="Configurar columnas visibles"
                                     >
@@ -147,21 +149,25 @@ export const FiltersComponent = ({
                                     </button>
                                 ) : (
                                     <button
-                                        className='buttonLine'
+                                        className={`buttonLineRefBancaria ${loadingRefBanc ? "bg-[#5B21B6]/70! " : ''}`}
                                         onClick={() => { handleRefBancClick() }}
-                                        title="Actualizar placas"
+                                        // title="Actualizar placas"
                                         disabled={loadingRefBanc}
                                     >
 
                                         {
                                             loadingRefBanc ? <CirculeDotLoader /> : <RefreshCcwDot size={18} />
                                         }
-                                        Actualizar placas
+
+                                        {
+                                            loadingRefBanc ? 'Actualizando...': 'Actualizar placas'
+                                        }
+
                                     </button>
                                 )
                             }
 
-                            <button className='buttonLine' onClick={() => { setOnExport(!onExport) }}>
+                            <button   className='buttonLine hover:bg-[#5B21B6]/90! hover:text-[#FFF]' onClick={() => { setOnExport(!onExport) }}>
                                 <FileDown size={18} />
                                 Exportar
                             </button>

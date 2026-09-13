@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import './RecordDetailsModal.css'
 import { CodeViewer } from '../../CodeViewer'
-import ComponentLoader, { TriangleDotLoader } from '../Loaders/ComponentLoader'
+import ComponentLoader, { CirculeDotLoader, TriangleDotLoader } from '../Loaders/ComponentLoader'
 import Lottie from 'lottie-react'
 import Loading from '../../../assets/animations/loading.json'
 import { extraerLog, type LogsParam } from '../../../services/logsService'
-import { ChevronDown, ChevronUp, CircleCheck } from 'lucide-react'
+import { ChevronDown, ChevronUp, CircleAlert, CircleCheck, Clock4 } from 'lucide-react'
 
 
 interface PagoLogData {
@@ -30,6 +30,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
     const [logsPagoTramaRequest, setLogsPagoTramaRequest] = useState("");
     const [logsPagoTramaResponse, setLogsPagoTramaResponse] = useState("");
     const [logsPagoFechaInicial, setLogsPagoFechaInicial] = useState("");
+    const [reintentado, setReintentado] = useState(false);
 
     const [isLoading, setIsLodings] = useState(false);
     const [openData, setOpenData] = useState(false);
@@ -78,7 +79,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
 
         getLogs();
         console.log(record);
-    }, [isVisible, record,onClose]);
+    }, [isVisible, record, onClose]);
 
 
 
@@ -125,7 +126,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
             'trpaCure': 'Cuenta Recaudo',
             'trpaPure': 'Punto Recaudo',
             'pureDesc': 'Descripción Punto Recaudo',
-            'trpaEnti': 'Entidad',
+            'trpaPrno': 'Entidad',
             'convNuco': 'Convenio',
             'trpaFeve': 'Fecha Vencimiento',
             'trpaFear': 'Fecha Aprobación',
@@ -157,10 +158,11 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
             };
 
             const response = await extraerLog(datos);
-            setLogsPagoTramaRequest(response.data.Pago[0].Properties.Data.TramaRequest);
-            setLogsPagoTramaResponse(response.data.Pago[0].Properties.Data.TramaResponse);
-            setLogsPagoFechaInicial(response.data.Pago[0].Properties.Data.FechaFinal);
-            // console.log(`Data logs : ${JSON.stringify(response.data.Pago)}`);
+
+            setLogsPagoTramaRequest(response.data.Pago.at(-1).Properties.Data.TramaRequest);
+            setLogsPagoTramaResponse(response.data.Pago.at(-1).Properties.Data.TramaResponse);
+            setLogsPagoFechaInicial(response.data.Pago.at(-1).Properties.Data.FechaFinal);
+            setReintentado(response.data.Pago.at(-1).Properties.Data.Reintento);
 
         } catch (error) {
             console.error('ERROR Generando logs:', error);
@@ -188,7 +190,20 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
     };
 
 
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'NO16': return 'text-[#10B981]';
+            case 'NN15': return 'text-[#F59E0B]';
+            case 'PR18': return 'text-[#2B7FFF]';
+            case 'AP09': return 'text-[#10B981]';
+            case 'PE08': return 'text-[#F59E0B]';
+            case 'RA10': return 'text-[#FB2C36]';
+            case 'FA12': return 'text-[#FB2C36]';
 
+            default: return '';
+        }
+    }
+    console.log(record)
 
     return (
         <>
@@ -199,7 +214,7 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
             />
 
             {/* Drawer sm:w-[420px] */}
-            <div className="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 flex flex-col shadow-xl">
+            <div className="fixed top-0 right-0 h-full w-full sm:w-[460px] bg-white z-50 flex flex-col shadow-xl">
                 {/* Header  border-b*/}
                 <div className="flex items-center justify-between px-5 py-4 ">
                     <div className='w-full'>
@@ -219,6 +234,11 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                         <p className="text-sm text-gray-500">
                             Registro detallado de acciones
                         </p>
+
+                        <div className='flex flex-col mt-2 ContenedorFlicToErp text-sm'>
+                            <span className='textBanco'>ID de Recaudo</span>
+                            <b className=''>{record.trpaIdtr}</b>
+                        </div>
                     </div>
 
 
@@ -246,13 +266,15 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                         <div className='flex flex-row gap-2.5'>
 
                             {/* items-center justify-center */}
-                            <div className='flex w-fit  text-green-500'>
+                            <div className={`flex w-fit ${getStatusColor(record.trpaEsta)}`}>
                                 <span className='text-2xl'>●</span>
                             </div>
 
                             <div className='w-full'>
-                                <p className='textBanco'>Del banco a Flic</p>
-                                <p className='subTextoBanco'>{`Exitoso - Valor: $${Number(record.trpaValo).toLocaleString('es-ES')}`}</p>
+                                <p className='textBanco'>De {`${record.trpaPadi ? 'Pasarela' : 'Banco'}`} a Flic</p>
+                                <p className={`${record.trpaEsta == "AP09" ? 'subTextoBancoExitoso' : record.trpaEsta == "RA10" ? 'subTextoBancoRechazado' : 'subTextoBancoPendiente'}`}>
+                                    {`Recaudo ${record.trpaEsta == "AP09" ? 'Exitoso' : record.trpaEsta == "RA10" ? 'Rechazado' : 'Pendiente'} - Valor: $${Number(record.trpaValo).toLocaleString('es-ES')}`}
+                                </p>
                             </div>
 
                             <div className='w-40 subFechaBanco'>
@@ -268,15 +290,33 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                             className='flex flex-row w-full gap-1.5 cursor-pointer'
                         >
                             <div className='w-fit flex justify-center items-center'>
-                                <CircleCheck size={16} className='text-green-600' />
+                                {
+                                    record.estaNotiDesc == "NO16" ?
+                                        <CircleCheck size={16} className={`${getStatusColor(record.estaNotiDesc)}`} />
+                                        : record.estaNotiDesc == "NN15" ?
+                                            <CircleAlert size={16} className={`${getStatusColor(record.estaNotiDesc)}`} />
+                                            :
+                                            <Clock4 size={16} className={`${getStatusColor(record.estaNotiDesc)}`} />
+                                }
+
                             </div>
 
                             <div className='flex flex-col w-full'>
                                 <div className='flex detalleFlicErp'>
-                                    <p className='textBanco'>De Flic al ERP</p>
+                                    <div className='flex gap-2.5 justify-center items-center'>
+                                        <p className='textBanco'>De Flic al ERP</p> 
+                                        {
+                                            reintentado ? (
+                                                <p className='textBanco badge'>Reintentado</p>
+                                            ):
+                                            null
+                                        }
+                                    </div>
                                     <span className='subFechaBanco'> {formatFecha(logsPagoFechaInicial ?? record.trpaFear)}</span>
                                 </div>
-                                <span className='subTextoBanco'>Notificada con éxito</span>
+                                <span className={`${record.estaNotiDesc == "NO16" ? 'subTextoBancoExitoso' : record.estaNotiDesc == "NN15" ? 'subTextoBancoPendiente' : 'subTextoBancoProcesando'}`}>
+                                    {`${record.estaNotiDesc == "NO16" ? 'Notificada con éxito' : record.estaNotiDesc == "NN15" ? 'No notificada' : 'En proceso de envio'}`}
+                                </span>
                             </div>
 
                             <button
@@ -293,65 +333,84 @@ const RecordDetailsModal = ({ record, isVisible, onClose }) => {
                         </div>
 
                         {
-                            !logsPagoTramaRequest && (
-                                <>
-                                    <div className='errorMensaje'>
-                                        <div className='w-full flex flex-row justify-between'>
-                                            <span className='errorTitulo'>Error:</span>
-                                            <span className='subFechaBanco'>{formatFecha(logsPagoFechaInicial ?? record.trpaFear)}</span>
-                                        </div>
-                                        <div className='textoMensaje'>
-                                            Error de conexión: Tiempo de espera agotado al intentar conectar con el servicio ERP
-                                        </div>
+                            isLoading ? (
+                                <CirculeDotLoader />
+                            ) : !logsPagoTramaRequest &&  record.trpaEsta != "PE08" && record.estaNotiDesc != "PR18" ? (
+                                <div className='errorMensaje'>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <span className='errorTitulo'>Error:</span>
+                                        <span className='subFechaBanco'>
+                                            {formatFecha(logsPagoFechaInicial ?? record?.trpaFear)}
+                                        </span>
                                     </div>
-                                </>
-                            )
+                                    <div className='textoMensaje'>
+                                        Error de conexión: Tiempo de espera agotado al intentar conectar con el servicio ERP
+                                    </div>
+                                </div>
+                            ) : reintentado && record.estaNotiDesc == "NO16" ? (
+                               <div className='reintentoMensaje'>
+                                    <div className='w-full flex flex-row justify-between'>
+                                        <span className='reintentoTitulo'>Reintento:</span>
+                                        <span className='subFechaBanco'>
+                                            {formatFecha(logsPagoFechaInicial ?? record?.trpaFear)}
+                                        </span>
+                                    </div>
+                                    <div className='textoMensaje text-[#0F766E]! mb-2'>
+                                        Exitoso
+                                    </div>
+                                </div>
+                            ): null
                         }
 
+
+
                         {
-                            logsPagoTramaRequest && (
-                                <>
-                                    <div className='mt-3.5'>
-                                        {
-                                            record.trpaCome != 203 ? (
-                                                <>
-                                                    <div className='flex flex-col gap-5 p-4'>
+                            openData && (
+                                logsPagoTramaRequest && (
+                                    <>
+                                        <div className='mt-3.5'>
+                                            {
+                                                record.trpaCome != 203 ? (
+                                                    <>
+                                                        <div className='flex flex-col gap-5 p-4'>
+                                                            <CodeViewer
+                                                                title="RETRY REQUEST"
+                                                                type="json"
+                                                                content={logsPagoTramaRequest}
+                                                            />
+
+                                                            <CodeViewer
+                                                                title="RETRY RESPONSE"
+                                                                type="json"
+                                                                // notiType='reve'
+                                                                content={logsPagoTramaResponse}
+                                                            />
+                                                        </div>
+
+                                                    </>
+
+                                                ) : (
+                                                    <>
                                                         <CodeViewer
                                                             title="RETRY REQUEST"
-                                                            type="json"
-                                                            content={logsPagoTramaRequest}
+                                                            type="xml"
+                                                            content={`${logsPagoTramaRequest}`}
                                                         />
 
                                                         <CodeViewer
                                                             title="RETRY RESPONSE"
-                                                            type="json"
-                                                            // notiType='reve'
-                                                            content={logsPagoTramaResponse}
+                                                            type="xml"
+                                                            content={`${logsPagoTramaResponse}`}
                                                         />
-                                                    </div>
+                                                    </>
+                                                )
+                                            }
+                                        </div>
 
-                                                </>
-
-                                            ) : (
-                                                <>
-                                                    <CodeViewer
-                                                        title="RETRY REQUEST"
-                                                        type="xml"
-                                                        content={`${logsPagoTramaRequest}`}
-                                                    />
-
-                                                    <CodeViewer
-                                                        title="RETRY RESPONSE"
-                                                        type="xml"
-                                                        content={`${logsPagoTramaResponse}`}
-                                                    />
-                                                </>
-                                            )
-                                        }
-                                    </div>
-
-                                </>
+                                    </>
+                                )
                             )
+
                         }
 
 

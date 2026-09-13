@@ -159,6 +159,8 @@ const RecaudoPage = () => {
         limpiarFiltrosFecha,
         isDetailsModalVisible,
         setIsDetailsModalVisible,
+        onfilter,
+        setOnfilter
     } = useDataTable()
 
     // Handlers de exportación
@@ -192,7 +194,7 @@ const RecaudoPage = () => {
                 <p className='parrafoVisor'>Visualiza y gestiona el registro completo de tus recaudos financieros</p>
             </div>
 
-            
+
             {/* Loading inicial */}
             {loadingAll && (
                 // <div className='text-center py-5'>
@@ -228,6 +230,8 @@ const RecaudoPage = () => {
                             onExportExcel={handleExportExcel}
                             allUsers={allUsers}
                             setIsDetailsModalVisible={setIsDetailsModalVisible}
+                            onfilter={onfilter}
+                            setOnfilter={setOnfilter}
                         />
 
                         {/* Información de resultados */}

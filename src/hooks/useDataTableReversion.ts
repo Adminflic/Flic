@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { numeroRecaudosNoNotificados } from '../services/torreNotificacion';
 
-export const useDataTableNotificador = () => {
+export const useDataTableReversion = () => {
     // Estados
     const [allUsers, setAllUsers] = useState([])
     const [allExport, setAllExport] = useState([])
 
     const [filteredUsers, setFilteredUsers] = useState([])
-    const [onfilter, setOnfilter] = useState(false);
     const [filteredExport, setFilteredExport] = useState([])
+    const [onfilter, setOnfilter] = useState(false);
 
     const [currentUsers, setCurrentUsers] = useState([])
     const [search, setSearch] = useState("")
@@ -17,10 +17,7 @@ export const useDataTableNotificador = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [totalRegistros, setTotalRegistros] = useState(0)
-    const [totalNoNotificadas, setTotalNoNotificadas] = useState(0)
-
     const [loadingAll, setLoadingAll] = useState(false)
-    const [loadingRows, setLoadingRows] = useState({});
 
     // Modales 
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
@@ -31,28 +28,24 @@ export const useDataTableNotificador = () => {
 
     const pageSize = 10
 
-    // Data del Selector de Busqueda
     const fieldLabels = {
-        trpaIdtr: "ID del recaudo",
+        trreCodi: 'ID de Reverso',
+        trpaIdtr: 'ID de recaudo',
         trpaDocu: "Ref. principal",
-        trpaNufa: "No. de factura",
         trpaValo: "Valor",
-        trpaPrre: "Ref. 1",
-        trpaSere: "Ref. 2",
-        trpaEnti: "Entidad",
-        estaNomb: "Estado",
+        bancEnti: "Entidad"
     };
 
+    // Función para construir la URL con parámetros opcionales
+
     const EXPORT_FIELDS = [
-        { key: "trpaIdtr", label: "ID del recaudo" },
-        { key: "trpaDocu", label: "Ref. principal" },
-        { key: "trpaNufa", label: "No. de factura" },
+        { key: "trreCodi", label: "ID de Reverso" },
+        { key: "trpaIdtr", label: "ID de recaudo" },
+        { key: "trpaDocu", label: "Documento" },
         { key: "trpaValo", label: "Valor", format: "currency" },
-        { key: "trpaPrre", label: "Ref. 1" },
-        { key: "trpaSere", label: "Ref. 2" },
-        { key: "trpaEnti", label: "Entidad" },
-        { key: "estaNomb", label: "Estado" },
+        { key: "bancEnti", label: "Entidad" },
         { key: "trpaFear", label: "Fecha de recaudo", format: "date" },
+        { key: "trreFere", label: "Fecha de reversion", format: "date" },
     ];
 
     const formatValue = (value, type) => {
@@ -86,8 +79,8 @@ export const useDataTableNotificador = () => {
     const buildURL = (page) => {
         const comercioKey = localStorage.getItem('Comercio');
 
-        const url = import.meta.env.VITE_API_BASE_URL_NOTIFICADOR;
-        let URL = `${url}?idComercio=${comercioKey}&pageNumber=${page}&pageSize=100`
+        const url = import.meta.env.VITE_API_BASE_URL_REVERSION;
+        let URL = `${url}/${comercioKey}?pageNumber=${page}&pageSize=100`
 
         // Agregar parámetros de fecha solo si tienen valor
         if (fechaInicial) {
@@ -126,9 +119,10 @@ export const useDataTableNotificador = () => {
                 const response = await fetch(URL)
                 const data = await response.json()
 
+                //Cantidad No notificadas
                 const come = localStorage.getItem('Comercio');
-                const countNoNotificada = await numeroRecaudosNoNotificados(Number.parseInt(come!));
-                setTotalNoNotificadas(countNoNotificada.totalRegistrosFecha);
+                await numeroRecaudosNoNotificados(Number.parseInt(come!));
+
                 // console.log(`Cargando página ${page}:`, data.data?.length, 'registros')
 
                 if (data.data && data.data.length > 0) {
@@ -173,12 +167,22 @@ export const useDataTableNotificador = () => {
                 }
             }
 
+            // setAllUsers(allData)
+            // setAllExport(allExportData)
+            // setFilteredUsers(allData)
+            // setFilteredExport(allExportData)
+            // setTotalRegistros(allData.length)
+            // setTotalPages(Math.ceil(allData.length / pageSize))
+            // updateCurrentUsers(allData, 1)
 
             setAllUsers(allData);
             setFilteredUsers(allData);
             setCurrentPage(1);
             setTotalPages(Math.ceil(allData.length / pageSize));
             updateCurrentUsers(allData, 1);
+
+
+            // console.log('Todos los datos cargados:', allData.length, 'registros')
 
         } catch (error) {
             console.error("Error loading all data:", error)
@@ -194,6 +198,37 @@ export const useDataTableNotificador = () => {
         setCurrentUsers(users.slice(startIndex, endIndex))
     }
 
+    // Filtrar datos - CORREGIDO
+    // const filterData = (searchTerm, field) => {
+    //     if (!searchTerm.trim()) {
+    //         // Si no hay término de búsqueda, mostrar todos los datos
+    //         setFilteredUsers(allUsers)
+    //         setTotalPages(Math.ceil(allUsers.length / pageSize))
+    //         setCurrentPage(1)
+    //         updateCurrentUsers(allUsers, 1)
+    //         return
+    //     }
+
+    //     const filtered = allUsers.filter((user) => {
+    //         if (field === 'todas') {
+    //             // Buscar en todas las columnas
+    //             return Object.values(user).some(value => {
+    //                 if (value === null || value === undefined) return false
+    //                 return String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    //             })
+    //         } else {
+    //             // Buscar en columna específica
+    //             const value = user[field]
+    //             if (value === null || value === undefined) return false
+    //             return String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    //         }
+    //     })
+
+    //     setFilteredUsers(filtered)
+    //     setTotalPages(Math.ceil(filtered.length / pageSize))
+    //     setCurrentPage(1)
+    //     updateCurrentUsers(filtered, 1)
+    // }
     const resetTableState = () => {
         setSearch("");
         setSelectedField("todas");
@@ -245,6 +280,22 @@ export const useDataTableNotificador = () => {
         }
     }
 
+    // Limpiar filtros de fecha
+    // const limpiarFiltrosFecha = () => {
+    //     const hoy = new Date();
+    //     const yyyy = hoy.getFullYear();
+    //     const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    //     const dd = String(hoy.getDate()).padStart(2, "0");
+
+    //     setFechaInicial(`${yyyy}-${mm}-${dd}`);
+    //     setSelectedField('todas')
+    //     // setFechaInicial("")
+    //     setFechaFinal("")
+    //     setSearch("")
+    //     // setTotalRegistros(0);
+    //     // Recargar datos sin filtros
+    //     loadAllData()
+    // }
     const limpiarFiltrosFecha = async () => {
         const hoy = new Date();
         const yyyy = hoy.getFullYear();
@@ -308,9 +359,6 @@ export const useDataTableNotificador = () => {
         setFechaFinal,
         isDetailsModalVisible,
         setIsDetailsModalVisible,
-        loadingRows,
-        setLoadingRows,
-        totalNoNotificadas,
         onfilter,
         setOnfilter,
 

@@ -36,7 +36,10 @@ export const NoNotificadaPage = () => {
     setIsDetailsModalVisible,
     loadAllData,
     loadingRows,
-    setLoadingRows
+    setLoadingRows,
+    totalNoNotificadas,
+    onfilter,
+    setOnfilter,
   } = useDataTableNotificador()
 
   // Handlers de exportación
@@ -79,7 +82,7 @@ export const NoNotificadaPage = () => {
           <h1 className='tituloVisor'>No Notificadas</h1>
           <div className='advertenciaVisor'>
             <Info size={16} color='#F59E0B' />
-            <p>{`${filteredUsers.length} recaudos no notificados`}</p>
+            <p>{`${totalNoNotificadas} recaudos no notificados`}</p>
           </div>
         </div>
         <p className='parrafoVisor'>Gestiona los recaudos pendientes de notificación al sistema</p>
@@ -113,6 +116,8 @@ export const NoNotificadaPage = () => {
               onExportExcel={handleExportExcel}
               allUsers={allUsers}
               setIsDetailsModalVisible={setIsDetailsModalVisible}
+              onfilter={onfilter}
+              setOnfilter={setOnfilter}
             />
 
             {/* Tabla */}

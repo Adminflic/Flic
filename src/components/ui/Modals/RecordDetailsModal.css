@@ -164,8 +164,38 @@
   /* 142.857% */
 }
 
-.subTextoBanco {
+.subTextoBancoExitoso {
   color: var(--Color-semantico-verde, #10B981);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.subTextoBancoRechazado {
+  color: var(--ColorSemantico-rojo, #FB2C36);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.subTextoBancoPendiente {
+  color: var(--Color-semantico-naranja, #F59E0B);
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.subTextoBancoProcesando {
+  color: #2B7FFF;
   font-family: Manrope;
   font-size: 0.875rem;
   font-style: normal;
@@ -223,12 +253,39 @@
   gap: 0.25rem;
 
   border-radius: 0.5rem;
-  border: 1px solid var(--Destructive-200, #FFA2A2);
+  border: 1px solid #D4183D;
   background: var(--Destructive-100, #FEF2F2);
+
 }
 
 .errorTitulo {
   color: var(--Color-semantico-rojo, #D4183D);
+  font-family: Manrope;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1rem;
+  /* 133.333% */
+}
+
+.reintentoMensaje {
+  display: flex;
+  /* width: 27.4375rem; */
+  /* height: 4.875rem; */
+  margin-top: 15px;
+  padding: 0.8125rem 0.8125rem 0.0625rem 0.8125rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid #0F766E;
+  background: var(--Succes-100, #F0FDF4);
+  color: #0F766E;
+}
+
+.reintentoTitulo {
+  color: #0F766E;
   font-family: Manrope;
   font-size: 0.75rem;
   font-style: normal;
@@ -245,6 +302,20 @@
   font-weight: 400;
   line-height: 1rem;
   /* 133.333% */
+}
+
+.badge {
+  /* display: inline-flex; */
+  /* padding: 0.125rem 0.5rem; */
+  /* align-items: center; */
+  /* gap: 0.25rem; */
+  border-radius: 0.5rem;
+  border: 1px solid #0F766E;
+  background: var(--Succes-100, #F0FDF4);
+  color: #0F766E;
+  padding-left: 5px;
+  padding-right: 5px;
+
 }
 
 /* Responsive */

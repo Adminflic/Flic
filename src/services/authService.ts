@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const API_URL = "https://localhost:7080/api/auth"; // 🔧 Ajusta el puerto según tu API
-const API_URL = "https://dev.flicservicios.com:9056/api/Authentication"; // 🔧 Ajusta el puerto según tu API
+// const API_URL = "https://dev.flicservicios.com:9056/api/Authentication"; // 🔧 Ajusta el puerto según tu API
+const API_URL = "https://flicservicios.com:9556/api/Authentication"; // 🔧 Ajusta el puerto según tu API
 
 // 🧩 Tipos
 export interface RegisterRequest {
@@ -40,6 +41,11 @@ export const register = async (data: RegisterRequest) => {
 // 2️⃣ Login
 export const login = async (data: LoginRequest) => {
   const res = await axios.post(`${API_URL}/login`, data);
+
+  if(res.data.comercio){
+    localStorage.setItem("email",data.email);
+  }
+  
   return res.data;
 };
 

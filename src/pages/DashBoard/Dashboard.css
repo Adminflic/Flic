@@ -1,0 +1,296 @@
+.headerMain {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.filtro {
+  /* background-color: aqua; */
+  display: flex;
+  gap: 16px;
+}
+
+.fechaSeleccionada {
+  /* background-color: aqua; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 15px;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  /* background: #FFF; */
+  height: 40px;
+
+}
+
+.cardPrincipales {
+  /* display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem; */
+
+
+  display: grid;
+  row-gap: 1rem;
+  column-gap: 16px;
+  align-self: stretch;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 1;
+  justify-self: stretch;
+
+
+  margin-bottom: 15px;
+  /* background-color: #45556C; */
+}
+
+.tituloDashboard {
+  color: #0F172B;
+  font-family: Manrope;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.25rem;
+  /* 150% */
+}
+
+.parrafoDashboard {
+  color: #45556C;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  /* 150% */
+}
+
+.tendenciaRecaudo {
+  display: flex;
+
+  box-sizing: border-box;
+  overflow: hidden;
+
+
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  align-self: stretch;
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
+  justify-self: stretch;
+
+  border-radius: 1.125rem;
+  border: 1px solid #E2E8F0;
+  background: #FFF;
+  padding: 15px
+}
+
+.tendenciaTitulo {
+  color: #0A0A0A;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1rem;
+}
+
+.tendenciaParrafo {
+  color: #717182;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.tendenciaHeader {
+  display: grid;
+  width: 66.3125rem;
+  height: 4.375rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  row-gap: 0.375rem;
+  column-gap: 6px;
+  grid-template-rows: 16px minmax(0, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.graficaTendencia {
+  display: flex;
+  /* width: 66.3125rem; */
+  width: 100%;
+  padding: 0 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex: 1 0 0;
+}
+
+.footerGrafica {
+  display: grid;
+  height: 3.8125rem;
+  padding-top: 1.0625rem;
+  row-gap: 1rem;
+  column-gap: 16px;
+  align-self: stretch;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  border-top: 1px solid #E2E8F0;
+}
+
+.graficaPrimera {
+  width: 100%;
+}
+
+.gridMultiEstadistica {
+  display: grid;
+  row-gap: 1rem;
+  column-gap: 16px;
+  align-self: stretch;
+  grid-template-rows: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
+  justify-self: stretch;
+
+}
+
+.seccionGrafica {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  align-self: stretch;
+  /* grid-row: 1 / span 1;
+  grid-column: 1 / span 1; */
+  justify-self: stretch;
+
+  border-radius: 1.125rem;
+  border: 1px solid #E2E8F0;
+  background: #FFF;
+  padding: 1rem;
+}
+
+.franjaHorariaTitulo {
+  color: #0A0A0A;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1rem;
+  /* 100% */
+}
+
+.franjaHorariaParrafo {
+  color: #717182;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+  /* 150% */
+}
+
+.selectorFiltroDash {
+  display: flex;
+  width: 11.25rem;
+  height: 40px;
+
+  padding: 0 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+
+  /* border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.00); */
+
+  border-radius: 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+
+  background: #FFF;
+  /* border: #717182 1px solid; */
+}
+
+.detallleTendencia {
+  color: #62748E;
+  font-family: Manrope;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1rem;
+  /* 133.333% */
+}
+
+.detalleTendenciaValor {
+  color: #0F172B;
+  font-family: Manrope;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem;
+  /* 155.556% */
+}
+
+.footerGraficaFranjaHoraria {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  height: 3.8125rem;
+  padding-top: 1.0625rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.detalleFranjaHoraria {
+color: #0F172B;
+font-family: Manrope;
+font-size: 1.125rem;
+font-style: normal;
+font-weight: 500;
+line-height: 1.75rem; /* 155.556% */
+}
+
+.isToday {
+  display: flex;
+  height: 4.75rem;
+  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+
+  border-radius: 0.875rem;
+  background: var(--Primary-Foreground, #FFF);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+  margin-bottom: 15px;
+}
+
+.tituloIsToday {
+  color: #45556C;
+  font-family: Manrope;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  /* 142.857% */
+}
+
+.fechaIsToday {
+  color: #0F172B;
+  font-family: Manrope;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5rem;
+  /* 150% */
+}
+
+.subtituloIsToday{
+  color: #45556C;
+font-family: Manrope;
+font-size: 0.875rem;
+font-style: normal;
+font-weight: 400;
+line-height: 1.25rem; /* 142.857% */
+}

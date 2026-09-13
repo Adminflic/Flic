@@ -22,10 +22,21 @@
   --Color-semantico-naranja: #F59E0B;
   --Destructive-200: #FEF2F2;
 
+  /* Estadisticas */
+
+  --color-border-3: var(--color-gray-300);
+  --color-text-3: var(--color-gray-600);
+  --color-border-2: var(--color-gray-400);
+  --color-chart-1: #8884d8; /* Indigo */
+  --color-surface-base: var(--color-white);
+  --color-chart-2: #82ca9d; /* Green */
+
   font-family: "Manrope", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
+  
 }
 
 .infoVisor {

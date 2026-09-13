@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings, Receipt } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ChartColumn, LayoutGrid, DollarSign, FileCheck, RotateCcw, CircleAlert, Settings, Receipt, Dot } from "lucide-react";
 import LogotipoFlic from '../../assets/icons/LogotipoFlic.svg';
 import { useLocation, useNavigate } from "react-router-dom";
 import './Sidebar.css' ;
@@ -9,6 +9,43 @@ export default function SidebarFlic() {
   const [collapsed, setCollapsed] = useState(false); // sidebar colapsado
   const navigate = useNavigate();  // ← aquí
 
+
+  // Lista de correos permitidos No notificadas
+  const allowedEmails = [
+    "m.cruz@biomax.co",
+    "s.mora@biomax.co",
+    "admin@fliclatam.com",
+    "santiago.sepulveda@unincca.edu.co",
+    "tesoreria@unincca.edu.co",
+    "admin@teralatam.com",
+    "direccion@fliclatam.com"
+  ];
+
+    // Lista de correos permitidos Dashboard
+  const allowedDashboard = [
+    "m.cruz@biomax.co",
+    "admin@fliclatam.com",
+    "santiago.sepulveda@unincca.edu.co",
+    "tesoreria@unincca.edu.co",
+    "admin@teralatam.com",
+    "direccion@fliclatam.com",
+    "leidy.rios.co@ajegroup.com",
+    "amparo.martinez.co@ajegroup.com",
+    "sandra.beltran.co@ajegroup.com",
+    "fabian.mosquera.co@ajegroup.com"
+  ];
+
+  // Función verificadora
+  const isEmailAllowed = (tipo:number): boolean => {
+    const email = localStorage.getItem("email");
+
+    if (tipo == 1) {
+      return allowedEmails.includes(email ?? "");
+    }else{
+      return allowedDashboard.includes(email ?? "");
+    }
+
+  };
 
   return (
     // border-r
@@ -34,7 +71,13 @@ export default function SidebarFlic() {
       </div>
 
       <nav className="flex-1 px-1 py-2">
-        <Item icon={<ChartColumn />} label="Dashboard" collapsed={collapsed} />
+        {
+          isEmailAllowed(2) && (
+            <Item icon={<ChartColumn /> } label="Dashboard" collapsed={collapsed} path="main" onClick={() => navigate("main")}/>
+          )
+               
+        }
+       
 
         <div className="mt-2">
           <button
@@ -53,7 +96,20 @@ export default function SidebarFlic() {
               <SubItem  label="Recaudo" icon={<DollarSign />} collapsed={collapsed} path="recaudo" onClick={() => navigate("recaudo")} />
               <SubItem label="Cheque" icon={<FileCheck />} collapsed={collapsed} path="cheque" onClick={() => navigate("cheque")}/>
               <SubItem label="Reversiones" icon={<RotateCcw />} collapsed={collapsed} path="reversion" onClick={() => navigate("reversion")}/>
-              <SubItem label="No notificadas" icon={<CircleAlert />} notificador={true} path="re-notificacion" collapsed={collapsed} onClick={() => navigate("re-notificacion")}/>
+
+              {
+               isEmailAllowed(1) && (
+                <SubItem label="No notificadas" 
+                  icon={<CircleAlert />} 
+                  notificador={true} 
+                  path="re-notificacion" 
+                  collapsed={collapsed} 
+                  onClick={() => navigate("re-notificacion")}
+                />
+               )
+               
+              }
+
               {
                 localStorage.getItem("Comercio") == "201" && <SubItem label="Referencia de Pago" icon={<Receipt />} path="referenciaPago" collapsed={collapsed} onClick={() => navigate("referenciaPago")}/>
               }
@@ -76,11 +132,25 @@ interface ItemProps {
   icon: React.ReactNode;
   label: string;
   collapsed?: boolean;
+  
+  path?: string;
+  active?: boolean;
+  onClick?: () => void;
 }
 
-function Item({ icon, label, collapsed = false }: ItemProps) {
+function Item({ icon, label, collapsed = false, path, active = false, onClick}: ItemProps) {
+
+  const location = useLocation();
+  
+  // Determinar si está activo: por path o por prop active
+  const isActive = path ? location.pathname.includes(path) : active;
+
   return (
-    <div className="flex items-center gap-3 px-3 py-3 hover:bg-gray-100 rounded-lg cursor-pointer">
+    <div 
+      onClick={onClick}
+    className={`flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer ${isActive ? "bg-[#5B21B6] text-white" : "hover:bg-gray-100"}`}
+     aria-current={isActive}
+    >
       <div className="flex items-center justify-center w-6 h-6">{icon}</div>
       {!collapsed && <span>{label}</span>}
     </div>
@@ -114,8 +184,14 @@ function SubItem({ label, icon,path, active = false,notificador = false ,collaps
       <span className="material-icons text-sm ">{icon}</span>
       {!collapsed && <span>{label}</span>}
       {notificador && !collapsed ? (
-          <div className="absolute z-30 left-49">
-            <span className="Notificador">{localStorage.getItem("totaNotificar") ?? "0"}</span>
+          <div className="absolute z-30 left-9.5 top-74">
+            {/* <span className="Notificador">{localStorage.getItem("totaNotificar") ?? "0"}</span> */}
+            <span className="Notificador">
+              {Number.parseInt(localStorage.getItem("totaNotificar")!) > 0 ?
+               <Dot size={55} className="text-[#EF4444]"/> :
+                null}
+              </span>
+
           </div>
       ) : null}
     </div>

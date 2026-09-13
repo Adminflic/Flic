@@ -18,6 +18,12 @@ export default function HeaderFlic() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+   // Función eliminar localStorage
+  const isDeleteLocalStorage = (): void => {
+   localStorage.clear();
+  };
+
+
   return (
     // border-b
     <header className="h-16 bg-white  flex items-center justify-between px-4 relative">
@@ -73,7 +79,7 @@ export default function HeaderFlic() {
               </button>
 
               <button
-                onClick={() => navigate("/")}
+                onClick={() => {navigate("/"), isDeleteLocalStorage()}}
                 className="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-100 text-left text-red-600"
               >
                 <LogOut size={18} />

@@ -3,12 +3,9 @@ import './DataTableComponent.css'
 import RecordDetailsModal from '../Modals/RecordDetailsModal'
 import ColumnSelectorModal from '../Modals/ColumnSelectorModal'
 import RecaudosNotFound from '../../../assets/icons/RecaudosNoEncontrados.svg'
-import { Dot, History } from 'lucide-react'
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css'; // optional
+import { History } from 'lucide-react'
 
-
-const DataTableComponent = ({
+const DataTableComponentCheque = ({
     currentUsers,
     search,
     fechaInicial,
@@ -21,19 +18,15 @@ const DataTableComponent = ({
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false)
     const [isColumnModalVisible, setIsColumnModalVisible] = useState(false)
 
+
+
     const [visibleColumns, setVisibleColumns] = useState([
-        'sociNomb', 'trpaIdtr', 'trpaCtte', 'trpaPyto', 'trpaValo', 'trpaNufa',
-        'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
-        'careNomb', 'mepaDesc', 'trpaPrno', 'convNuco',
-        'coreConc','tireDesc','fopaDesc','trpaFear','trpaFecr',
+        'trchCodi', 'trpaIdtr', 'trpaDocu', 'trpaCheq', 'bancEnti', 'trpaFear'
     ])
 
     // Todas las columnas disponibles
     const allColumns = [
-        'sociNomb', 'trpaIdtr', 'trpaCtte', 'trpaPyto', 'trpaValo', 'trpaNufa',
-        'trpaDocu', 'trpaPrre', 'trpaSere', 'trpaTere', 'trpaCure',
-        'careNomb', 'mepaDesc', 'trpaPrno', 'convNuco', 'trpaFear',
-        'trpaFecr', 'coreConc','tireDesc','fopaDesc',
+        'trchCodi', 'trpaIdtr', 'trpaDocu', 'trpaCheq', 'bancEnti', 'trpaFear'
     ]
 
     const handleLogClick = (record) => {
@@ -52,44 +45,12 @@ const DataTableComponent = ({
 
     const getColumnLabel = (columnKey) => {
         const columnLabels = {
-            'sociNomb': 'Sociedad',
+            'trchCodi':'ID de Cheque',
             'trpaIdtr': 'ID de recaudo',
-            'trpaCtte': 'ID conciliador',
-            'trpaPyto': 'No. de autorizacion',
-            'trpaValo': 'Valor',
-            'trpaNufa': 'No. de factura',
-            'trpaDocu': 'Ref. principal',
-            'trpaPrre': 'Ref. 1',
-            'trpaSere': 'Ref. 2',
-            'trpaTere': 'Ref. 3',
-            'trpaCure': 'Ref. 4',
-            'careNomb': 'Canal de Recaudo',
-            'mepaDesc': 'Medio de pago',
-            'trpaPrno': 'Entidad',
-            'convNuco': 'Convenio',
-            // Cuenta destino
-            // Ubicación
-            // 'pureDesc': 'Canal de recaudo',
-            'coreConc': 'Concepto de Recaudo',
-            'tireDesc': 'Tipo de Recaudo',
-            'fopaDesc': 'Forma de Pago',
-            'trpaFear': 'Fecha de recaudo',
-            'trpaFecr': 'Fecha de creación',
-            
-
-            // 'trpaPure': 'Canal ',
-            // 'id': 'ID',
-            // 'trpaCodi': 'Código',
-            // 'trpaNuau': 'Núm. Autorización',
-            // 'trpaNuuf': 'Núm. UF',
-            // 'trpaDesc': 'Descripción',
-            // 'trpaCome': 'Comercio',
-            // 'trpaEsta': 'Código Estado',
-            // 'estaNomb': 'Estado',
-            // 'trpaFeve': 'Fecha Vencimiento',
-            // 'mepaTipo': 'Tipo Medio Pago',
-            // 'trpaBanc': 'Banco',
-            // 'estaNoti': 'Notificación Estado'
+            'trpaDocu': 'Documento',
+            'trpaCheq': 'Valor',
+            'bancEnti': 'Entidad',
+            'trpaFear': 'Fecha consignacion'
         }
         return columnLabels[columnKey] || columnKey
     }
@@ -147,27 +108,12 @@ const DataTableComponent = ({
         }
 
         // Valores monetarios
-        if (columnKey === "trpaValo") {
+        if (columnKey === "trpaCheq") {
             return `$${Number(value).toLocaleString("es-ES")}`;
         }
 
         return String(value);
     };
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'NO16': return 'text-[#10B981] hover:bg-[#10B981] hover:text-white';
-            case 'NN15': return 'text-[#F59E0B] hover:bg-[#F59E0B] hover:text-white';
-            case 'PR18': return 'text-[#2B7FFF] hover:bg-[#2B7FFF] hover:text-white';
-
-            case 'AP09': return 'text-[#10B981]';
-            case 'PE08': return 'text-[#F59E0B]';
-            case 'RA10': return 'text-[#FB2C36]';
-            case 'FA12': return 'text-[#FB2C36]';
-
-            default: return 'text-[#5B21B6]';
-        }
-    }
 
 
     return (
@@ -196,8 +142,8 @@ const DataTableComponent = ({
                                         </th>
                                     ))}
                                     {/* Columnas fijas */}
-                                    <th className='fixed-header-estado'>Estado</th>
-                                    <th className='fixed-header-logs'>Logs</th>
+                                    {/* <th className='fixed-header-estado'>Estado</th> */}
+                                    {/* <th className='fixed-header-logs'>Logs</th> */}
                                 </tr>
                             </thead>
 
@@ -211,57 +157,14 @@ const DataTableComponent = ({
                                             </td>
                                         ))}
                                         {/* Columnas fijas */}
-                                        <td className='fixed-column-estado'>
-                                            <Tippy content={`${user.estaNomb}`} theme="flic" >
-                                                <button
-                                                    // title={`${user.estaNomb}`}
-                                                    className={`text-xl ${getStatusColor(user.trpaEsta)} `}>
-                                                    ●
-                                                    {/* <Dot size={55}/> */}
-                                                    {/* {user.estaNomb || 'N/A'} */}
-                                                </button>
-                                            </Tippy>
-                                        </td>
-                                        <td className='fixed-column-logs'>
-                                            <Tippy content={`${user.estaNoti}`} theme="flic"> 
-                                                <button
-                                                    id='hoverLogs'
-                                                    className={`text-xl ${getStatusColor(user.estaNotiDesc)}  p-1.5 rounded-sm `}
-                                                    title="Ver detalles completos"
-                                                    onClick={() => handleLogClick(user)}
-                                                >
-                                                    <History size={18} />
-                                                </button>
-                                            </Tippy>
+                                        {/* <td className='fixed-column-estado'>
+                                            <button
+                                                title={`${user.estaNomb === 'Aprobada' ? 'Aprobada' : user.estaNomb === 'Rechazada' ? 'Rechazada' : 'No Notificada'}`}
+                                                className={`text-xl ${user.estaNomb === 'Aprobada' ? 'text-green-600' : user.estaNomb === 'Rechazada' ? 'text-red-600' : 'text-[--Color-semantico-naranja]'}`}>
+                                                ●
+                                            </button>
+                                        </td> */}
 
-
-                                            {/* <div className="relative group inline-flex">
-                                                <button
-                                                    className={`text-xl
-                                                            ${user.estaNomb === "Aprobada"
-                                                            ? "text-green-600"
-                                                            : user.estaNomb === "Rechazada"
-                                                                ? "text-red-600"
-                                                                : "text-orange-600"
-                                                        }`}
-                                                    onClick={() => handleLogClick(user)}
-                                                >
-                                                    <History size={18} />
-                                                </button>
-
-                                                Tooltip
-                                                <div
-                                                    className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2
-                                                                whitespace-nowrap px-3 py-1.5 rounded-md
-                                                                bg-gray-900 text-white text-xs
-                                                                opacity-0 group-hover:opacity-100
-                                                                transition pointer-events-none shadow-lg"
-                                                >
-                                                    Ver detalles completos
-                                                </div>
-                                            </div> */}
-
-                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -278,7 +181,7 @@ const DataTableComponent = ({
                                                 <img src={RecaudosNotFound} alt="" />
                                             </div>
 
-                                            <h2 className='tituloState'>No se encontraron recaudos</h2>
+                                            <h2 className='tituloState'>No se encontraron cheques</h2>
                                             <h6 className='detalleState'>No hay registros que coincidan con los filtros aplicados.  Ajusta los criterios de búsqueda o  rango de fechas e inténtalo nuevamente.</h6>
                                         </div>
                                     ) :
@@ -289,17 +192,17 @@ const DataTableComponent = ({
                         </div>
                     )}
                 </div>
-            </div >
+            </div>
 
             {/* Modal de detalles */}
-            < RecordDetailsModal
+            <RecordDetailsModal
                 record={selectedRecord}
                 isVisible={isDetailsModalVisible}
                 onClose={closeDetailsModal}
             />
 
             {/* Modal de configuración de columnas */}
-            < ColumnSelectorModal
+            <ColumnSelectorModal
                 // isVisible={isColumnModalVisible}
                 isVisible={modalVisible}
                 // onClose={() => setIsColumnModalVisible(false)} 
@@ -312,4 +215,4 @@ const DataTableComponent = ({
     )
 }
 
-export default DataTableComponent
+export default DataTableComponentCheque
